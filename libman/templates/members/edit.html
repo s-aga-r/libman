@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Member
+{% endblock %}
+
+{% block content %}
+{% if form.memberID.data %}
+<h1>Edit Member</h1>
+<div class="mt-sm-5 mt-4 col-xl-3 col-lg-4 col-md-6 col-12">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.memberID.label(class="form-label") }}
+            {{ form.memberID(class="form-control not-allowed", type="number", readonly="readonly") }}
+        </div>
+        <div class="mb-3">
+            {{ form.first_name.label(class="form-label") }}
+            {{ form.first_name(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.last_name.label(class="form-label") }}
+            {{ form.last_name(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.outstanding_amount.label(class="form-label") }}
+            {{ form.outstanding_amount(class="form-control", type="number", min="0", max="500") }}
+        </div>
+        <div class="row mt-4">
+            <div class="col-6">
+                <div class="d-grid gap-2">
+                    {{ form.submit(class="btn btn-outline-success") }}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="d-grid gap-2">
+                    <a class="btn btn-outline-primary" href="{{ url_for('members.index') }}">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% else %}
+<p>
+    Member with Member ID = {{ id }} were not found. Click <a class="text-decoration-none"
+        href="{{ url_for('members.index') }}">here</a> to see all members.
+</p>
+{% endif %}
+{% endblock%}
