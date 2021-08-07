@@ -1,0 +1,15 @@
+.nav-border-bottom{
+    border-bottom: 1px solid #424242;
+}
+.footer-border{
+    border-top: 1px solid #424242;
+}
+#mode{
+    width:30px;
+    height: 30px;
+    cursor: pointer;
+}
+.mode-switch{
+    filter: invert(100%);
+}
+
