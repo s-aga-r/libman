@@ -13,6 +13,7 @@ member = Blueprint("members", __name__, url_prefix="/members")
 @member.route("/", methods=["GET", "POST"])
 def index():
 
+    # Delete member.
     if request.method == "POST":
         # Get member through memberID.
         member = Member.query.filter_by(memberID=request.form.get("memberID")).first()
@@ -28,7 +29,16 @@ def index():
             category="warning",
         )
 
-    members = Member.query.all()
+    # Search.
+    search = request.args.get("s")
+    if search:
+        members = db.engine.execute(
+            f"SELECT * FROM member WHERE first_name || last_name LIKE '%{search}%'"
+        )
+        flash((f"Search results for : {search}",), category="info")
+    else:
+        members = Member.query.all()
+
     return render_template("members/index.html", members=members)
 
 

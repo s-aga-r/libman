@@ -18,7 +18,7 @@ Members
                 <form method="GET">
                     <div class="input-group">
                         <input type="search" class="form-control" placeholder="Member Name"
-                            aria-describedby="button-search" name="s">
+                            aria-describedby="button-search" name="s" required>
                         <input type="submit" class="btn btn-outline-success" value="Search" id="button-search" />
                     </div>
                 </form>
@@ -58,7 +58,8 @@ Members
         </div>
     </div>
     {% else %}
-    <p>There are no library members, click <a class="text-decoration-none" href="">here</a> to add member.</p>
+    <p>There are no library members, click <a class="text-decoration-none" href="{{ url_for('members.add') }}">here</a>
+        to add member.</p>
     {% endif %}
 </div>
 {% endblock%}
