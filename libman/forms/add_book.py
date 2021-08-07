@@ -27,6 +27,7 @@ class AddBookForm(FlaskForm):
     publisher = StringField(
         label="Publisher", validators=[Length(min=2), DataRequired()]
     )
+    quantity = IntegerField(label="Quantity", validators=[DataRequired()])
     rent = IntegerField(label="Rent", validators=[DataRequired()])
     submit = SubmitField(label="Save")
 

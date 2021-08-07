@@ -36,7 +36,7 @@ def add():
         db.session.add(member)
         db.session.commit()
         flash(
-            (f"New member added with Member ID = {member.memberID}.",),
+            (f"Member added with Member ID = {member.member_id}.",),
             category="success",
         )
         return redirect(url_for("members.index"))
@@ -52,9 +52,9 @@ def add():
 # POST - /books/remove
 @member.route("/remove", methods=["POST"])
 def remove():
-    # Get member through memberID.
-    member = Member.query.filter_by(memberID=request.form.get("memberID")).first()
-    message = f"Member with Member ID = {member.memberID} "
+    # Get member through member_id.
+    member = Member.query.filter_by(member_id=request.form.get("member_id")).first()
+    message = f"Member with Member ID = {member.member_id} "
     if member:
         db.session.delete(member)
         db.session.commit()
@@ -72,7 +72,7 @@ def remove():
 @member.route("/edit/<id>", methods=["GET", "POST"])
 def edit(id):
     form = EditMemberForm()
-    member = Member.query.filter_by(memberID=id).first()
+    member = Member.query.filter_by(member_id=id).first()
 
     # Update and save member to database.
     if form.validate_on_submit():
@@ -82,7 +82,7 @@ def edit(id):
         db.session.commit()
 
         flash(
-            (f"Member updated with Member ID = {form.memberID.data}.",),
+            (f"Member updated with Member ID = {form.member_id.data}.",),
             category="success",
         )
         return redirect(url_for("members.index"))
@@ -94,7 +94,7 @@ def edit(id):
     else:
         # Set value for form attributes using member instance.
         if member:
-            form.memberID.data = member.memberID
+            form.member_id.data = member.member_id
             form.first_name.data = member.first_name
             form.last_name.data = member.last_name
             form.outstanding_amount.data = member.outstanding_amount

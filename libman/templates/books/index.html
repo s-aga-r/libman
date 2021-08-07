@@ -9,7 +9,7 @@ Books
     <h1 class="d-inline-block">Books</h1>
     <div class="float-end">
         <form method="POST" action="{{ url_for('books.seed') }}">
-            <input class="btn btn-outline-warning" type="submit" value="Seed" title="Get books from API" />
+            <input class="btn warning btn-outline-warning" type="submit" value="Seed" title="Get books from API" />
         </form>
     </div>
 </div>
@@ -19,14 +19,15 @@ Books
         <!-- Add and Search Button -->
         <div class="row mb-sm-5 mb-4">
             <div class="col-xl-8 col-lg-8 col-md-7 col-sm-4 mb-2 d-grid gap-2 d-md-block">
-                <a href="{{ url_for('books.add') }}" class="btn btn-outline-success">Add Book</a>
+                <a href="{{ url_for('books.add') }}" class="btn success btn-outline-success">Add Book</a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8 col-12 mb-2">
                 <form method="GET">
                     <div class="input-group">
                         <input type="search" class="form-control" placeholder="Book / Author Name"
                             aria-describedby="button-search" name="s">
-                        <input type="submit" class="btn btn-outline-primary" value="Search" id="button-search" />
+                        <input type="submit" class="btn primary btn-outline-primary" value="Search"
+                            id="button-search" />
                     </div>
                 </form>
             </div>
@@ -47,17 +48,17 @@ Books
                     {% for book in books %}
                     {% include "books/includes/delete_modal.html" %}
                     <tr>
-                        <th scope="row">{{ book.bookID }}</th>
+                        <th scope="row">{{ book.book_id }}</th>
                         <td class="text-wrap">{{ book.title }}</td>
                         <td class="text-wrap">{{ book.authors }}</td>
                         <td>{{ book.rent }}&#8377</td>
                         <td>
-                            <a href="{{ url_for('books.details', id=book.bookID) }}"
-                                class="btn btn-outline-success">Details</a>
-                            <a href="{{ url_for('books.edit', id=book.bookID) }}"
-                                class="btn btn-outline-primary">Edit</a>
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                data-bs-target="#modal-delete-book-{{ book.bookID }}">
+                            <a href="{{ url_for('books.details', id=book.book_id) }}"
+                                class="btn success btn-outline-success">Details</a>
+                            <a href="{{ url_for('books.edit', id=book.book_id) }}"
+                                class="btn primary btn-outline-primary">Edit</a>
+                            <button type="button" class="btn danger btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#modal-delete-book-{{ book.book_id }}">
                                 Remove
                             </button>
                         </td>
@@ -68,8 +69,14 @@ Books
         </div>
     </div>
     {% else %}
-    <p>There are no books, click <a class="text-decoration-none" href="{{ url_for('books.add') }}">here</a>
-        to add book.</p>
+    <div>
+        <p>Click <a class="text-decoration-none" href="{{ url_for('books.add') }}"><b>here</b></a>
+            to add book.</p>
+        <div class="text-center">
+            <img class="img-fluid col-xl-6 col-lg-8" src="{{ url_for('static', filename='images/no-data.svg') }}"
+                alt="" />
+        </div>
+    </div>
     {% endif %}
 </div>
 {% endblock%}

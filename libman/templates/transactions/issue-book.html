@@ -1,21 +1,25 @@
 {% extends "base.html" %}
 
 {% block title %}
-Add Member
+Book-Issue
 {% endblock %}
 
 {% block content %}
-<h1>Add Member</h1>
+<h1>Book-Issue</h1>
 <div class="mt-sm-5 mt-4 col-xl-3 col-lg-4 col-md-6 col-12">
     <form method="POST">
         {{ form.hidden_tag() }}
         <div class="mb-3">
-            {{ form.first_name.label(class="form-label") }}
-            {{ form.first_name(class="form-control", autofocus="true") }}
+            {{ form.book_id.label(class="form-label") }}
+            {{ form.book_id(class="form-control text-wrap", autofocus="true") }}
         </div>
         <div class="mb-3">
-            {{ form.last_name.label(class="form-label") }}
-            {{ form.last_name(class="form-control") }}
+            {{ form.member_id.label(class="form-label") }}
+            {{ form.member_id(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.issue_date.label(class="form-label") }}
+            {{ form.issue_date(class="form-control", type="date") }}
         </div>
         <div class="row mt-4">
             <div class="col-6">
@@ -25,7 +29,7 @@ Add Member
             </div>
             <div class="col-6">
                 <div class="d-grid gap-2">
-                    <a class="btn primary btn-outline-primary" href="{{ url_for('members.index') }}">Cancel</a>
+                    <a class="btn primary btn-outline-primary" href="{{ url_for('transactions.index') }}">Cancel</a>
                 </div>
             </div>
         </div>

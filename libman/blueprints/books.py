@@ -46,12 +46,13 @@ def add():
             text_reviews_count=form.text_reviews_count.data,
             publication_date=form.publication_date.data,
             publisher=form.publisher.data,
+            quantity=form.quantity.data,
             rent=form.rent.data,
         )
         db.session.add(book)
         db.session.commit()
         flash(
-            (f"New book added with Book ID = {book.bookID}.",),
+            (f"Book added with Book ID = {book.book_id}.",),
             category="success",
         )
         return redirect(url_for("books.index"))
@@ -62,12 +63,15 @@ def add():
             flash(err_msg, category="danger")
     else:
         form.average_rating.data = round(random.uniform(1, 5), 1)
+        form.isbn.data = random.randrange(1000000000, 10000000000)
+        form.isbn13.data = random.randrange(1000000000000, 10000000000000)
         form.language_code.data = random.choice(
             ["eng", "spa", "en-GB", "en-US", "ger", "enm"]
         )
         form.num_pages.data = random.randint(1, 1000)
         form.ratings_count.data = random.randint(1, 1000)
         form.text_reviews_count.data = random.randint(1, 1000)
+        form.quantity.data = random.randint(1, 10)
         form.rent.data = random.randint(50, 100)
 
     return render_template("books/add.html", form=form)
@@ -76,9 +80,9 @@ def add():
 # POST - /books/remove
 @book.route("/remove", methods=["POST"])
 def remove():
-    # Get book through bookID.
-    book = Book.query.filter_by(bookID=request.form.get("bookID")).first()
-    message = f"Book with Book ID = {book.bookID} "
+    # Get book through book_id.
+    book = Book.query.filter_by(book_id=request.form.get("book_id")).first()
+    message = f"Book with Book ID = {book.book_id} "
     if book:
         db.session.delete(book)
         db.session.commit()
@@ -95,7 +99,7 @@ def remove():
 # GET - /books/details<id>
 @book.route("/details/<id>", methods=["GET"])
 def details(id):
-    book = Book.query.filter_by(bookID=id).first()
+    book = Book.query.filter_by(book_id=id).first()
     return render_template("books/details.html", book=book, id=id)
 
 
@@ -103,7 +107,7 @@ def details(id):
 @book.route("/edit/<id>", methods=["GET", "POST"])
 def edit(id):
     form = EditBookForm()
-    book = Book.query.filter_by(bookID=id).first()
+    book = Book.query.filter_by(book_id=id).first()
 
     # Update and save book to database.
     if form.validate_on_submit():
@@ -118,11 +122,12 @@ def edit(id):
         book.text_reviews_count = form.text_reviews_count.data
         book.publication_date = form.publication_date.data
         book.publisher = form.publisher.data
+        book.quantity = form.quantity.data
         book.rent = form.rent.data
         db.session.commit()
 
         flash(
-            (f"Book updated with Book ID = {form.bookID.data}.",),
+            (f"Book updated with Book ID = {form.book_id.data}.",),
             category="success",
         )
         return redirect(url_for("books.index"))
@@ -134,7 +139,7 @@ def edit(id):
     else:
         # Set value for form attributes using book instance.
         if book:
-            form.bookID.data = book.bookID
+            form.book_id.data = book.book_id
             form.title.data = book.title
             form.authors.data = book.authors
             form.average_rating.data = book.average_rating
@@ -146,6 +151,7 @@ def edit(id):
             form.text_reviews_count.data = book.text_reviews_count
             form.publication_date.data = book.publication_date
             form.publisher.data = book.publisher
+            form.quantity.data = book.quantity
             form.rent.data = book.rent
 
     return render_template("books/edit.html", form=form, id=id)
@@ -160,7 +166,7 @@ def seed():
 
     # Get existing book id's in a list.
     existing_book_ids = []
-    for book_id in db.session.query(Book.bookID).all():
+    for book_id in db.session.query(Book.book_id).all():
         existing_book_ids.append(book_id[0])
 
     skipped_book_count = 0
@@ -181,9 +187,10 @@ def seed():
                     book["publication_date"], "%m/%d/%Y"
                 ).date(),
                 publisher=book["publisher"],
+                quantity=random.randint(1, 10),
                 rent=random.randint(50, 100),
             )
-            new_book.bookID = book["bookID"]
+            new_book.book_id = book["bookID"]
             db.session.add(new_book)
         else:
             skipped_book_count += 1
@@ -191,20 +198,20 @@ def seed():
         db.session.commit()
         if skipped_book_count == 0:
             flash(
-                (f"{len(books)} new books were added.",),
+                (f"{len(books)} books were added.",),
                 category="success",
             )
         elif skipped_book_count == len(books):
             flash(
-                ("All books got from API are already in the database.",),
+                ("All books got from API were already in the database.",),
                 category="warning",
             )
         else:
             flash(
                 (
-                    f"Total {len(books)} books data got from API, "
-                    f"{len(books) - skipped_book_count} books were added "
-                    f"and {skipped_book_count} of them are already exists in the database.",
+                    f"Got total {len(books)} books data from API, "
+                    f"{len(books) - skipped_book_count} book(s) were added "
+                    f"and {skipped_book_count} of them were already in the database.",
                 ),
                 category="success",
             )

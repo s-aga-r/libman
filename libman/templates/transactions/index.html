@@ -5,5 +5,38 @@ Transactions
 {% endblock %}
 
 {% block content %}
-<h2>Manage Transactions</h2>
+<div>
+    <h1 class="d-inline-block">Transactions</h1>
+    <div class="float-end">
+        <a href="{{ url_for('transactions.issue_book') }}" class="btn success btn-outline-success">Book Issue</a>
+    </div>
+</div>
+<div class="mt-sm-5 mt-4">
+    {% if transactions %}
+    <!-- Issue Book and Search Button -->
+    <div class="row mb-sm-5 mb-4">
+        <div class="col-xl-8 col-lg-8 col-md-7 col-sm-4 mb-2 d-grid gap-2 d-md-block">
+            <a href="{{ url_for('transactions.return_book') }}" class="btn warning btn-outline-warning">Book Return</a>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8 col-12 mb-2">
+            <form method="GET">
+                <div class="input-group">
+                    <input type="search" class="form-control" placeholder="Book / Author / Member Name"
+                        aria-describedby="button-search" name="s">
+                    <input type="submit" class="btn primary btn-outline-primary" value="Search" id="button-search" />
+                </div>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <div>
+        <!-- <p>Click <a class="text-decoration-none" href="{{ url_for('transactions.issue_book') }}"><b>here</b></a>
+            to issue book.</p> -->
+        <div class="text-center">
+            <img class="img-fluid col-xl-6 col-lg-8" src="{{ url_for('static', filename='images/no-data.svg') }}"
+                alt="" />
+        </div>
+    </div>
+    {% endif %}
+</div>
 {% endblock%}

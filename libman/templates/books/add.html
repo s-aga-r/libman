@@ -54,18 +54,22 @@ Add Book
             {{ form.publisher(class="form-control") }}
         </div>
         <div class="mb-3">
+            {{ form.quantity.label(class="form-label") }}
+            {{ form.quantity(class="form-control") }}
+        </div>
+        <div class="mb-3">
             {{ form.rent.label(class="form-label") }}
             {{ form.rent(class="form-control", type="number", min="1") }}
         </div>
         <div class="row mt-4">
             <div class="col-6">
                 <div class="d-grid gap-2">
-                    {{ form.submit(class="btn btn-outline-success") }}
+                    {{ form.submit(class="btn success btn-outline-success") }}
                 </div>
             </div>
             <div class="col-6">
                 <div class="d-grid gap-2">
-                    <a class="btn btn-outline-primary" href="{{ url_for('books.index') }}">Cancel</a>
+                    <a class="btn primary btn-outline-primary" href="{{ url_for('books.index') }}">Cancel</a>
                 </div>
             </div>
         </div>

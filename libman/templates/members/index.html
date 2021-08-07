@@ -12,14 +12,15 @@ Members
         <!-- Add and Search Button -->
         <div class="row mb-sm-5 mb-4">
             <div class="col-xl-8 col-lg-8 col-md-7 col-sm-4 mb-2 d-grid gap-2 d-md-block">
-                <a href="{{ url_for('members.add') }}" class="btn btn-outline-success">Add Member</a>
+                <a href="{{ url_for('members.add') }}" class="btn success btn-outline-success">Add Member</a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8 col-12 mb-2">
                 <form method="GET">
                     <div class="input-group">
                         <input type="search" class="form-control" placeholder="Member Name"
                             aria-describedby="button-search" name="s">
-                        <input type="submit" class="btn btn-outline-primary" value="Search" id="button-search" />
+                        <input type="submit" class="btn primary btn-outline-primary" value="Search"
+                            id="button-search" />
                     </div>
                 </form>
             </div>
@@ -39,15 +40,15 @@ Members
                     {% for member in members %}
                     {% include "members/includes/delete_modal.html" %}
                     <tr>
-                        <th scope="row">{{ member.memberID }}</th>
+                        <th scope="row">{{ member.member_id }}</th>
                         <td>{{ member.first_name }} {{ member.last_name }}</td>
                         <td>{{ member.outstanding_amount }}&#8377</td>
                         <td>
-                            <a href="" class="btn btn-outline-success">Transactions</a>
-                            <a href="{{ url_for('members.edit', id = member.memberID) }}"
-                                class="btn btn-outline-primary">Edit</a>
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                data-bs-target="#modal-delete-member-{{ member.memberID }}">
+                            <a href="" class="btn success btn-outline-success">Transactions</a>
+                            <a href="{{ url_for('members.edit', id = member.member_id) }}"
+                                class="btn primary btn-outline-primary">Edit</a>
+                            <button type="button" class="btn danger btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#modal-delete-member-{{ member.member_id }}">
                                 Remove
                             </button>
                         </td>
@@ -58,8 +59,14 @@ Members
         </div>
     </div>
     {% else %}
-    <p>There are no library members, click <a class="text-decoration-none" href="{{ url_for('members.add') }}">here</a>
-        to add member.</p>
+    <div>
+        <p>Click <a class="text-decoration-none" href="{{ url_for('members.add') }}"><b>here</b></a>
+            to add member.</p>
+        <div class="text-center">
+            <img class="img-fluid col-xl-6 col-lg-8" src="{{ url_for('static', filename='images/no-data.svg') }}"
+                alt="" />
+        </div>
+    </div>
     {% endif %}
 </div>
 {% endblock%}

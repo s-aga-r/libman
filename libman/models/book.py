@@ -3,7 +3,7 @@ import random
 
 
 class Book(db.Model):
-    bookID = db.Column(db.Integer(), primary_key=True)
+    book_id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(), nullable=False)
     authors = db.Column(db.String(), nullable=False)
     average_rating = db.Column(db.Float(), nullable=False)
@@ -15,8 +15,8 @@ class Book(db.Model):
     text_reviews_count = db.Column(db.Integer(), nullable=False)
     publication_date = db.Column(db.Date(), nullable=False)
     publisher = db.Column(db.String(), nullable=False)
+    quantity = db.Column(db.Integer(), nullable=False, default=random.randint(1, 10))
     rent = db.Column(db.Integer(), nullable=False, default=random.randint(50, 100))
-    memberID = db.Column(db.Integer(), db.ForeignKey("member.memberID"))
 
     def __init__(
         self,
@@ -31,6 +31,7 @@ class Book(db.Model):
         text_reviews_count,
         publication_date,
         publisher,
+        quantity,
         rent,
     ) -> None:
         self.title = title
@@ -44,6 +45,7 @@ class Book(db.Model):
         self.text_reviews_count = text_reviews_count
         self.publication_date = publication_date
         self.publisher = publisher
+        self.quantity = quantity
         self.rent = rent
 
     def __repr__(self) -> str:

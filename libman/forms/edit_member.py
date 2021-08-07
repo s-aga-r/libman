@@ -5,7 +5,7 @@ from wtforms.validators import Length, DataRequired, ValidationError
 
 
 class EditMemberForm(FlaskForm):
-    memberID = IntegerField(label="Member ID", validators=[DataRequired()])
+    member_id = IntegerField(label="Member ID", validators=[DataRequired()])
     first_name = StringField(
         label="First Name", validators=[Length(min=1, max=15), DataRequired()]
     )

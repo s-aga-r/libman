@@ -47,7 +47,7 @@
                             <li>
                                 <a class="dropdown-item" href="{{ url_for('books.index') }}">
                                     <span>
-                                        <img src="{{ url_for('static', filename='icons/book-half.svg') }}" />
+                                        <img src="{{ url_for('static', filename='icons/book-half.svg') }}" alt="" />
                                         &nbsp;
                                         Books
                                     </span>
@@ -56,7 +56,7 @@
                             <li>
                                 <a class="dropdown-item" href="{{ url_for('members.index') }}">
                                     <span>
-                                        <img src="{{ url_for('static', filename='icons/people-fill.svg') }}" />
+                                        <img src="{{ url_for('static', filename='icons/people-fill.svg') }}" alt="" />
                                         &nbsp;
                                         Members
                                     </span>
@@ -65,8 +65,8 @@
                             <li>
                                 <a class="dropdown-item" href="{{ url_for('transactions.index') }}">
                                     <span>
-                                        <img
-                                            src="{{ url_for('static', filename='icons/file-earmark-text-fill.svg') }}" />
+                                        <img src="{{ url_for('static', filename='icons/file-earmark-text-fill.svg') }}"
+                                            alt="" />
                                         &nbsp;
                                         Transactions
                                     </span>
@@ -77,9 +77,9 @@
                 </ul>
                 <div class="d-flex">
                     <img src="{{ url_for('static', filename='icons/sun-fill.svg') }}" id="light-mode"
-                        onclick="Page_Base.switchMode(true)" class="mode invert" title="Light mode" />
+                        onclick="Page_Base.switchMode(true)" class="mode invert" title="Light mode" alt="Light" />
                     <img src="{{ url_for('static', filename='icons/moon-fill.svg') }}" id="dark-mode"
-                        onclick="Page_Base.switchMode(true)" class="mode d-none" title="Dark mode" />
+                        onclick="Page_Base.switchMode(true)" class="mode d-none" title="Dark mode" alt="Dark" />
                 </div>
             </div>
     </nav>

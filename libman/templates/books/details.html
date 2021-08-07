@@ -5,14 +5,14 @@ Book Details
 {% endblock %}
 
 {% block content %}
-{% if book.bookID %}
+{% if book.book_id %}
 <h1>Book Details</h1>
 {% include "books/includes/delete_modal.html" %}
 <div class="mt-sm-5 mt-4 col-12">
     <div>
         <div class="row mb-3">
             <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Book ID :</b></div>
-            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.bookID }}</div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.book_id }}</div>
         </div>
         <div class="row mb-3">
             <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Title :</b></div>
@@ -59,6 +59,10 @@ Book Details
             <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.publisher }}</div>
         </div>
         <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Quantity :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.quantity }}</div>
+        </div>
+        <div class="row mb-3">
             <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Rent :</b></div>
             <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.rent }}&#8377</div>
         </div>
@@ -68,10 +72,10 @@ Book Details
         </div> -->
     </div>
     <div class="mt-5">
-        <a href="{{ url_for('books.index') }}" class="btn btn-outline-success">Back</a>
-        <a href="{{ url_for('books.edit', id=book.bookID) }}" class="btn btn-outline-primary">Edit</a>
-        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-            data-bs-target="#modal-delete-book-{{ book.bookID }}">
+        <a href="{{ url_for('books.index') }}" class="btn success btn-outline-success">Back</a>
+        <a href="{{ url_for('books.edit', id=book.book_id) }}" class="btn primary btn-outline-primary">Edit</a>
+        <button type="button" class="btn danger btn-outline-danger" data-bs-toggle="modal"
+            data-bs-target="#modal-delete-book-{{ book.book_id }}">
             Remove
         </button>
     </div>

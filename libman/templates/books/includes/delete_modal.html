@@ -1,5 +1,4 @@
-<div class="modal fade" id="modal-delete-book-{{ book.bookID }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="modal-delete-book-{{ book.book_id }}" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -8,13 +7,13 @@
             </div>
             <div class="modal-body">
                 Are you sure you want to remove book <b>{{ book.title }}</b> with <b>Book
-                    ID = {{book.bookID }}</b>?
+                    ID = {{book.book_id }}</b>?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn success btn-outline-success" data-bs-dismiss="modal">No</button>
                 <form method="POST" action="{{ url_for('books.remove') }}">
-                    <input type="hidden" name="bookID" value="{{ book.bookID }}" />
-                    <input type="submit" class="btn btn-outline-danger" value="Yes" />
+                    <input type="hidden" name="book_id" value="{{ book.book_id }}" />
+                    <input type="submit" class="btn danger btn-outline-danger" value="Yes" />
                 </form>
             </div>
         </div>
