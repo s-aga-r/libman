@@ -1,56 +1,39 @@
 var Page_Base = {
 
     switchMode: function (isBtnClick = false) {
+        // Get last saved mode from localStorage.
+        var mode = window.localStorage.getItem("mode") == null ? "dark" : window.localStorage.getItem("mode");
+
+        // Switch Button.
+        var modeSwitcher = document.getElementById('mode');
+
         // Elements to change.
         var body = document.body;
         var navbar = document.getElementById('nav');
         var footer = document.getElementById('footer');
         var tables = document.getElementsByClassName('table');
 
-        // Switch Button.
-        var modeSwitcher = document.getElementById('mode');
-
-        // CSS Classes for Light and Dark mode.
-        var darkBody = ["bg-dark", "text-light"];
-        var lightBody = ["bg-white", "text-dark"];
-        var darkNav = ["navbar-dark", "bg-dark", "nav-border-bottom"];
-        var lightNav = ["navbar-light", "bg-white", "border-bottom"];
-        var darkFooter = ["bg-dark", "footer-border"];
-        var lightFooter = ["bg-white", "border-top"];
-        var darkTable = ["table-dark"];
-        var lightTable = [];
-
-        // Get last saved mode from localStorage.
-        var mode = window.localStorage.getItem("mode") == null ? "dark" : window.localStorage.getItem("mode");
-
-        // Switch from Dark to Light mode.
-        function switchToLight() {
-            body.classList.remove(darkBody[0], darkBody[1]);
-            body.classList.add(lightBody[0], lightBody[1]);
-            navbar.classList.remove(darkNav[0], darkNav[1], darkNav[2]);
-            navbar.classList.add(lightNav[0], lightNav[1], lightNav[2]);
-            footer.classList.remove(darkFooter[0], darkFooter[1]);
-            footer.classList.add(lightFooter[0], lightFooter[1]);
-
-            for (i = 0; i < tables.length; i++) {
-                var table = tables[i];
-                table.classList.remove(darkTable[0]);
-            }
-        }
-
-        // Switch from Light to Dark mode.
-        function switchToDark() {
-            body.classList.remove(lightBody[0], lightBody[1]);
-            body.classList.add(darkBody[0], darkBody[1]);
-            navbar.classList.remove(lightNav[0], lightNav[1], lightNav[2]);
-            navbar.classList.add(darkNav[0], darkNav[1], darkNav[2]);
-            footer.classList.remove(lightFooter[0], lightFooter[1]);
-            footer.classList.add(darkFooter[0], darkFooter[1]);
-
-            for (i = 0; i < tables.length; i++) {
-                var table = tables[i];
-                table.classList.add(darkTable[0]);
-            }
+        // Toggle between light and dark mode.
+        function toggleMode() {
+            // Body
+            bodyClasses = ["bg-dark", "text-light", "bg-white", "text-dark"];
+            bodyClasses.map(c => body.classList.toggle(c));
+            // Navbar
+            navbarClasses = ["navbar-dark", "bg-dark", "nav-border-bottom", "navbar-light", "bg-white", "border-bottom"];
+            navbarClasses.map(c => navbar.classList.toggle(c));
+            // Footer
+            footerClasses = ["bg-dark", "footer-border", "bg-white", "border-top"];
+            footerClasses.map(c => footer.classList.toggle(c));
+            // Table
+            tableClasses = ["table-dark"];
+            tableClasses.map(c => {
+                for (i = 0; i < tables.length; i++) {
+                    tables[i].classList.toggle(c);
+                }
+            });
+            // Switch mode icon
+            iconClasses = ["mode-switch"];
+            iconClasses.map(c => modeSwitcher.classList.toggle(c));
         }
 
         // Save mode value to localStorage.
@@ -58,29 +41,15 @@ var Page_Base = {
             window.localStorage.setItem("mode", value);
         }
 
-        // Toggle the switch icon.
-        function toggleIcon() {
-            modeSwitcher.classList.toggle('mode-switch');
-        }
-
         // When user click on the switch icon.
         if (isBtnClick) {
-            if (mode == "dark") {
-                switchToLight();
-                mode = "light";
-            }
-            else {
-                switchToDark();
-                mode = "dark";
-            }
-
-            toggleIcon();
+            mode = mode == "dark" ? "light" : "dark";
+            toggleMode();
         }
         // When page loads first time.
         else {
             if (mode == "light") {
-                switchToLight();
-                toggleIcon();
+                toggleMode();
             }
         }
 
