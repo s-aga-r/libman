@@ -55,3 +55,24 @@ class EditBookForm(FlaskForm):
         book = Book.query.filter_by(isbn13=isbn13.data).first()
         if book and book.book_id != self.book_id.data:
             raise ValidationError("ISBN13 must be unique for every book.")
+
+    def fill_data(self, book):
+        self.book_id.data = book.book_id
+        self.title.data = book.title
+        self.authors.data = book.authors
+        self.average_rating.data = book.average_rating
+        self.isbn.data = book.isbn
+        self.isbn13.data = book.isbn13
+        self.language_code.data = book.language_code
+        self.num_pages.data = book.num_pages
+        self.ratings_count.data = book.ratings_count
+        self.text_reviews_count.data = book.text_reviews_count
+        self.publication_date.data = book.publication_date
+        self.publisher.data = book.publisher
+        self.quantity.data = book.quantity
+        self.rent.data = book.rent
+
+
+
+
+

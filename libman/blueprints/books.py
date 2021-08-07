@@ -15,8 +15,9 @@ def index():
 
     # Search.
     search = request.args.get("s")
+
     if search:
-        books = Book.query.filter((Book.title + " " + Book.authors).like(f"%{search}%"))
+        books = Book.search_by(search)
         flash((f"Search results for : {search}",), category="info")
     else:
         books = Book.query.all()
@@ -46,12 +47,13 @@ def add():
             quantity=form.quantity.data,
             rent=form.rent.data,
         )
-        db.session.add(book)
-        db.session.commit()
+        book.add()
+
         flash(
             (f"Book added with Book ID = {book.book_id}.",),
             category="success",
         )
+
         return redirect(url_for("books.index"))
 
     # Flash error messages.
@@ -59,17 +61,8 @@ def add():
         for err_msg in form.errors.values():
             flash(err_msg, category="danger")
     else:
-        form.average_rating.data = round(random.uniform(1, 5), 1)
-        form.isbn.data = random.randrange(1000000000, 10000000000)
-        form.isbn13.data = random.randrange(1000000000000, 10000000000000)
-        form.language_code.data = random.choice(
-            ["eng", "spa", "en-GB", "en-US", "ger", "enm"]
-        )
-        form.num_pages.data = random.randint(1, 1000)
-        form.ratings_count.data = random.randint(1, 1000)
-        form.text_reviews_count.data = random.randint(1, 1000)
-        form.quantity.data = random.randint(1, 10)
-        form.rent.data = random.randint(50, 100)
+        # Initialize form fields with random dummy values.
+        form.dummy_data()
 
     return render_template("books/add.html", form=form)
 
@@ -77,56 +70,60 @@ def add():
 # POST - /books/remove
 @book.route("/remove", methods=["POST"])
 def remove():
+
     # Get book through book_id.
-    book = Book.query.filter_by(book_id=request.form.get("book_id")).first()
+    book = Book.get_by_id(request.form.get("book_id"))
     message = f"Book with Book ID = {book.book_id} "
+
     if book:
-        db.session.delete(book)
-        db.session.commit()
+        book.remove()
         message += "has been removed."
     else:
         message += "does not found or it has been removed earlier."
+
     flash(
         (f"{message}",),
         category="warning",
     )
+
     return redirect(url_for("books.index"))
 
 
 # GET - /books/details<id>
 @book.route("/details/<id>", methods=["GET"])
 def details(id):
-    book = Book.query.filter_by(book_id=id).first()
-    return render_template("books/details.html", book=book, id=id)
+    return render_template("books/details.html", book=Book.get_by_id(id), id=id)
 
 
 # GET & POST - /books/edit/<id>
 @book.route("/edit/<id>", methods=["GET", "POST"])
 def edit(id):
     form = EditBookForm()
-    book = Book.query.filter_by(book_id=id).first()
+    book = Book.get_by_id(id)
 
     # Update and save book to database.
     if form.validate_on_submit():
-        book.title = form.title.data
-        book.authors = form.authors.data
-        book.average_rating = form.average_rating.data
-        book.isbn = form.isbn.data
-        book.isbn13 = form.isbn13.data
-        book.language_code = form.language_code.data
-        book.num_pages = form.num_pages.data
-        book.ratings_count = form.ratings_count.data
-        book.text_reviews_count = form.text_reviews_count.data
-        book.publication_date = form.publication_date.data
-        book.publisher = form.publisher.data
-        book.quantity = form.quantity.data
-        book.rent = form.rent.data
-        db.session.commit()
+        book.update(
+            title=form.title.data,
+            authors=form.authors.data,
+            average_rating=form.average_rating.data,
+            isbn=form.isbn.data,
+            isbn13=form.isbn13.data,
+            language_code=form.language_code.data,
+            num_pages=form.num_pages.data,
+            ratings_count=form.ratings_count.data,
+            text_reviews_count=form.text_reviews_count.data,
+            publication_date=form.publication_date.data,
+            publisher=form.publisher.data,
+            quantity=form.quantity.data,
+            rent=form.rent.data,
+        )
 
         flash(
             (f"Book updated with Book ID = {form.book_id.data}.",),
             category="success",
         )
+
         return redirect(url_for("books.index"))
 
     # Flash error messages.
@@ -134,22 +131,9 @@ def edit(id):
         for err_msg in form.errors.values():
             flash(err_msg, category="danger")
     else:
-        # Set value for form attributes using book instance.
+        # Initialize form fields with book object.
         if book:
-            form.book_id.data = book.book_id
-            form.title.data = book.title
-            form.authors.data = book.authors
-            form.average_rating.data = book.average_rating
-            form.isbn.data = book.isbn
-            form.isbn13.data = book.isbn13
-            form.language_code.data = book.language_code
-            form.num_pages.data = book.num_pages
-            form.ratings_count.data = book.ratings_count
-            form.text_reviews_count.data = book.text_reviews_count
-            form.publication_date.data = book.publication_date
-            form.publisher.data = book.publisher
-            form.quantity.data = book.quantity
-            form.rent.data = book.rent
+            form.fill_data(book)
 
     return render_template("books/edit.html", form=form, id=id)
 
@@ -161,15 +145,15 @@ def seed():
     json_response = response.json()
     books = list(json_response["message"])
 
-    # Get existing book id's in a list.
-    existing_book_ids = []
-    for book_id in db.session.query(Book.book_id).all():
-        existing_book_ids.append(book_id[0])
+    # Get existing book title in a list.
+    existing_books_title = []
+    for book_title in db.session.query(Book.title).all():
+        existing_books_title.append(book_title[0])
 
     skipped_book_count = 0
     for book in books:
         # Only add those books, which are not available in the database.
-        if int(book["bookID"]) not in existing_book_ids:
+        if book["title"] not in existing_books_title:
             new_book = Book(
                 title=book["title"],
                 authors=book["authors"],
@@ -187,12 +171,13 @@ def seed():
                 quantity=random.randint(1, 10),
                 rent=random.randint(50, 100),
             )
-            new_book.book_id = book["bookID"]
+
             db.session.add(new_book)
         else:
             skipped_book_count += 1
     try:
         db.session.commit()
+
         if skipped_book_count == 0:
             flash(
                 (f"{len(books)} books were added.",),

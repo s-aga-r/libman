@@ -1,4 +1,3 @@
-from sqlalchemy.orm import backref, lazyload
 from libman.application import db
 import random
 
@@ -52,3 +51,70 @@ class Book(db.Model):
 
     def __repr__(self) -> str:
         return f"{self.title}"
+
+    @staticmethod
+    def search_by(search):
+        return Book.query.filter(
+            (Book.title + " " + Book.authors).like(f"%{search}%")
+        ).all()
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @staticmethod
+    def get_by_id(id):
+        return Book.query.filter_by(book_id=id).first()
+
+    def remove(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(
+        self,
+        title,
+        authors,
+        average_rating,
+        isbn,
+        isbn13,
+        language_code,
+        num_pages,
+        ratings_count,
+        text_reviews_count,
+        publication_date,
+        publisher,
+        quantity,
+        rent,
+    ):
+        self.title = title
+        self.authors = authors
+        self.average_rating = average_rating
+        self.isbn = isbn
+        self.isbn13 = isbn13
+        self.language_code = language_code
+        self.num_pages = num_pages
+        self.ratings_count = ratings_count
+        self.text_reviews_count = text_reviews_count
+        self.publication_date = publication_date
+        self.publisher = publisher
+        self.quantity = quantity
+        self.rent = rent
+        db.session.commit()
+
+    @staticmethod
+    def books_in_stock():
+        return [
+            (book.book_id, book.title)
+            for book in Book.query.filter(Book.quantity > 0).all()
+        ]
+
+    def issue(self, member, transaction):
+        self.quantity -= 1
+        member.outstanding_amount += self.rent
+        db.session.add(transaction)
+        db.session.commit()
+
+    def issue_return(self, member, transaction):
+        self.quantity += 1
+        member.outstanding_amount -= transaction.rent
+        db.session.commit()

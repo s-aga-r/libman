@@ -1,3 +1,4 @@
+from libman.models.member import Member
 from libman.application import db
 
 
@@ -17,3 +18,31 @@ class Transaction(db.Model):
 
     def __repr__(self) -> str:
         return f"{self.transaction_id}"
+
+    @staticmethod
+    def search_by_member_name(search):
+        return (
+            Transaction.query.join(Transaction.member)
+            .filter((Member.first_name + " " + Member.last_name).like(f"%{search}%"))
+            .all()
+        )
+
+    @staticmethod
+    def incomplete_transaction(book_id, member_id):
+        return Transaction.query.filter(
+            Transaction.book_id == book_id,
+            Transaction.member_id == member_id,
+            Transaction.return_date == None,
+        ).first()
+
+    @staticmethod
+    def incomplete_transactions():
+        return Transaction.query.filter_by(return_date=None)
+
+    @staticmethod
+    def member_transactions(member_id):
+        return Transaction.query.filter_by(member_id=member_id).all()
+
+    @staticmethod
+    def book_transactions(book_id):
+        return Transaction.query.filter_by(book_id=book_id).all()

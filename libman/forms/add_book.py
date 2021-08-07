@@ -3,6 +3,7 @@ from wtforms import StringField, SubmitField
 from wtforms.fields.core import DateField, IntegerField
 from wtforms.validators import Length, DataRequired, ValidationError
 from libman.models import Book
+import random
 
 
 class AddBookForm(FlaskForm):
@@ -54,3 +55,16 @@ class AddBookForm(FlaskForm):
         book = Book.query.filter_by(isbn13=isbn13.data).first()
         if book:
             raise ValidationError("ISBN13 must be unique for every book.")
+
+    def dummy_data(self):
+        self.average_rating.data = round(random.uniform(1, 5), 1)
+        self.isbn.data = random.randrange(1000000000, 10000000000)
+        self.isbn13.data = random.randrange(1000000000000, 10000000000000)
+        self.language_code.data = random.choice(
+            ["eng", "spa", "en-GB", "en-US", "ger", "enm"]
+        )
+        self.num_pages.data = random.randint(1, 1000)
+        self.ratings_count.data = random.randint(1, 1000)
+        self.text_reviews_count.data = random.randint(1, 1000)
+        self.quantity.data = random.randint(1, 10)
+        self.rent.data = random.randint(50, 100)

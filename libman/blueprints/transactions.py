@@ -1,8 +1,9 @@
+from datetime import date, datetime
 from flask.helpers import url_for
 from werkzeug.utils import redirect
 from libman.models.transaction import Transaction
 from flask.blueprints import Blueprint
-from flask import Blueprint, render_template, flash
+from flask import Blueprint, render_template, flash, request
 from libman.forms import IssueBookForm, ReturnBookForm
 from libman.models import Book, Member, member
 from libman.application import db
@@ -11,49 +12,68 @@ transaction = Blueprint("transactions", __name__, url_prefix="/transactions")
 
 
 # GET - /transactions
-@transaction.route("/")
+@transaction.route("/", methods=["GET"])
 def index():
-    transactions = Transaction.query.all()
-    return render_template("transactions/index.html", transactions=transactions)
+
+    # Search.
+    search = request.args.get("s")
+
+    if search:
+        transactions = Transaction.search_by_member_name(search)
+        flash((f"Search results for : {search}",), category="info")
+    else:
+        transactions = Transaction.query.all()
+
+    # Sort.
+    sort_by = request.args.get(key="sort-by")
+
+    if sort_by == "issue-date":
+        transactions.sort(key=lambda transaction: transaction.issue_date)
+        flash(("Sort by : Issue Date",), category="info")
+    elif sort_by == "return-date":
+
+        def sort_by_return_date(transaction):
+            if isinstance(transaction.return_date, date):
+                return transaction.return_date
+            # If book is not return yet.
+            return date.today()
+
+        transactions.sort(key=sort_by_return_date)
+        flash(("Sort by : Return Date",), category="info")
+
+    return render_template(
+        "transactions/index.html", transactions=transactions, show_filters=True
+    )
 
 
 # GET & POST - /transactions/issue-book
 @transaction.route("/issue-book", methods=["GET", "POST"])
 def issue_book():
     form = IssueBookForm()
-    available_books = [
-        (book.book_id, book.title)
-        for book in Book.query.filter(Book.quantity > 0).all()
-    ]
-    members = [
-        (member.member_id, member.first_name + " " + member.last_name)
-        for member in Member.query.all()
-    ]
-    form.book_id.choices = available_books
-    form.member_id.choices = members
+
+    # Set options for dropdown list.
+    form.book_id.choices = Book.books_in_stock()
+    form.member_id.choices = Member.members()
 
     if form.validate_on_submit():
         # Get selected book and member by their id.
-        book = Book.query.filter_by(book_id=form.book_id.data).first()
-        member = Member.query.filter_by(member_id=form.member_id.data).first()
+        book = Book.get_by_id(form.book_id.data)
+        member = Member.get_by_id(form.member_id.data)
 
         # Check for outstanding amount of selected member.
         if member.outstanding_amount + book.rent <= 500:
-            book.quantity -= 1
-            member.outstanding_amount += book.rent
             transaction = Transaction(
                 book_id=book.book_id,
                 member_id=member.member_id,
                 rent=book.rent,
                 issue_date=form.issue_date.data,
             )
-            db.session.add(transaction)
-            db.session.commit()
+            book.issue(member, transaction)
 
             flash(
                 (
-                    f"Book '{book.title}' with Book ID = {book.book_id} "
-                    f"is issued to member '{member.first_name} {member.last_name}' with Member ID = {member.member_id}",
+                    f"Book '{book}' with Book ID = {book.book_id} "
+                    f"is issued to member '{member}' with Member ID = {member.member_id}",
                 ),
                 category="success",
             )
@@ -62,7 +82,7 @@ def issue_book():
         else:
             flash(
                 (
-                    f"Member '{member.first_name} {member.last_name}' with Member ID = {member.member_id} "
+                    f"Member '{member}' with Member ID = {member.member_id} "
                     f"has an outstanding amount of {member.outstanding_amount}.",
                 ),
                 category="warning",
@@ -76,52 +96,51 @@ def issue_book():
 def return_book():
     form = ReturnBookForm()
 
-    transactions = Transaction.query.filter_by(return_date=None)
-    books_id = [transaction.book_id for transaction in transactions]
-    members_id = [transaction.member_id for transaction in transactions]
-    books = [
-        (book.book_id, book.title)
-        for book in Book.query.all()
-        if book.book_id in books_id
-    ]
-    members = [
-        (member.member_id, member.first_name + " " + member.last_name)
-        for member in Member.query.all()
-        if member.member_id in members_id
-    ]
-    form.book_id.choices = books
-    form.member_id.choices = members
+    transactions = Transaction.incomplete_transactions()
+    books = []
+    members = []
+    for transaction in transactions:
+        books.append((transaction.book.book_id, transaction.book.title))
+        members.append(
+            (
+                transaction.member.member_id,
+                transaction.member.first_name + " " + transaction.member.last_name,
+            )
+        )
+
+    def remove_duplicates(lst):
+        return [t for t in (set(tuple(i) for i in lst))]
+
+    form.book_id.choices = remove_duplicates(books)
+    form.member_id.choices = remove_duplicates(members)
 
     if form.validate_on_submit():
-        book = Book.query.filter_by(book_id=form.book_id.data).first()
-        member = Member.query.filter_by(member_id=form.member_id.data).first()
-        transaction = Transaction.query.filter(
-            Transaction.book_id == book.book_id,
-            Transaction.member_id == member.member_id,
-            Transaction.return_date == None,
-        ).first()
+        book = Book.get_by_id(form.book_id.data)
+        member = Member.get_by_id(form.member_id.data)
+        transaction = Transaction.incomplete_transaction(
+            book_id=book.book_id, member_id=member.member_id
+        )
 
         if transaction:
-            book.quantity += 1
-            member.outstanding_amount -= transaction.rent
             transaction.return_date = form.return_date.data
-            db.session.commit()
+            book.issue_return(member, transaction)
 
             flash(
                 (
-                    f"Book '{book.title}' with Book ID '{book.book_id}' "
+                    f"Book '{book}' with Book ID '{book.book_id}' "
                     "was returned by member "
-                    f"'{member.first_name} {member.last_name}' with Member ID = {member.member_id}.",
+                    f"'{member}' with Member ID = {member.member_id}.",
                 ),
                 category="success",
             )
+
             return redirect(url_for("transactions.index"))
         else:
             flash(
                 (
-                    f"Selected book '{book.title}' with Book ID = {book.book_id} "
+                    f"Selected book '{book}' with Book ID = {book.book_id} "
                     "does not belongs to selected member "
-                    f"'{member.first_name} {member.last_name}' with Member ID = {member.member_id}",
+                    f"'{member}' with Member ID = {member.member_id}",
                 ),
                 category="warning",
             )
@@ -130,52 +149,60 @@ def return_book():
 
 
 # GET - /transactions/member/<id>
-@transaction.route("/member/<id>")
+@transaction.route("/member/<id>", methods=["GET"])
 def member_transactions(id):
-    member = Member.query.filter_by(member_id=id).first()
+    member = Member.get_by_id(id)
+
     if member:
-        transactions = Transaction.query.filter_by(member_id=id).all()
+        transactions = Transaction.member_transactions(member_id=id)
+
         if transactions:
             flash(
                 (
-                    f"All transactions of member '{member.first_name} {member.last_name}' with Member ID = {member.member_id}.",
+                    f"All transactions of member '{member}' with Member ID = {member.member_id}.",
                 ),
                 category="info",
             )
         else:
             flash(
                 (
-                    f"Member '{member.first_name} {member.last_name}' with Member ID = {member.member_id} has no transactions.",
+                    f"Member '{member}' with Member ID = {member.member_id} has no transactions.",
                 ),
                 category="info",
             )
-        return render_template("transactions/index.html", transactions=transactions)
+
+        return render_template(
+            "transactions/index.html", transactions=transactions, show_filters=False
+        )
     else:
         flash(("Member not found!",), category="warning")
-    return redirect(url_for("members.index"))
+
+    return redirect(url_for("transactions.index"))
 
 
 # GET - /transactions/book/<id>
-@transaction.route("/book/<id>")
+@transaction.route("/book/<id>", methods=["GET"])
 def book_transactions(id):
-    book = Book.query.filter_by(book_id=id).first()
+    book = Book.get_by_id(id)
+
     if book:
-        transactions = Transaction.query.filter_by(book_id=id).all()
+        transactions = Transaction.book_transactions(book_id=id)
+
         if transactions:
             flash(
-                (
-                    f"All transactions for book '{book.title}' with Book ID = {book.book_id}.",
-                ),
+                (f"All transactions for book '{book}' with Book ID = {book.book_id}.",),
                 category="info",
             )
         else:
             flash(
-                (
-                    f"Book '{book.title}' with Book ID = {book.book_id} has no transactions.",
-                ),
+                (f"Book '{book}' with Book ID = {book.book_id} has no transactions.",),
                 category="info",
             )
-        return render_template("transactions/index.html", transactions=transactions)
+
+        return render_template(
+            "transactions/index.html", transactions=transactions, show_filters=False
+        )
     else:
         flash(("Book not found!",), category="warning")
-    return redirect(url_for("books.index"))
+
+    return redirect(url_for("transactions.index"))
