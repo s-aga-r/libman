@@ -1,1 +1,1 @@
-from libman.routes import app
+from libman.libman import app, db
