@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+Members
+{% endblock %}
+
+{% block content %}
+<h1>Members</h1>
+<div class="mt-sm-5 mt-4">
+    {% if members %}
+    <div class="">
+        <!-- Add and Search Button -->
+        <div class="row mb-sm-5 mb-4">
+            <div class="col-xl-8 col-lg-8 col-md-7 col-sm-4 mb-2 d-grid gap-2 d-md-block">
+                <button class="btn btn-outline-success">Add Member</button>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8 col-12 mb-2">
+                <form>
+                    <div class="input-group">
+                        <input type="search" class="form-control" placeholder="Member Name"
+                            aria-describedby="button-search">
+                        <button class="btn btn-outline-success" type="button" id="button-search">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Table -->
+        <div class="overflow-auto">
+            <table class="table table-hover table-dark text-nowrap">
+                <thead>
+                    <tr>
+                        <th scope="col">Member ID</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">O/S Amount</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in members %}
+                    <tr>
+                        <th scope="row">{{ member.memberID }}</th>
+                        <td>{{ member.first_name }} {{ member.last_name }}</td>
+                        <td>{{ member.outstanding_amount }}&#8377</td>
+                        <td>
+                            <button class="btn btn-outline-success">Transactions</button>
+                            <button class="btn btn-outline-primary">Edit</button>
+                            <button class="btn btn-outline-danger">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <p>There are no library members, click <a class="text-decoration-none" href="">here</a> to add member.</p>
+    {% endif %}
+</div>
+{% endblock%}

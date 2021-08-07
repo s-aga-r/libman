@@ -5,6 +5,7 @@ var Page_Base = {
         var body = document.body;
         var navbar = document.getElementById('nav');
         var footer = document.getElementById('footer');
+        var tables = document.getElementsByClassName('table');
 
         // Switch Button.
         var modeSwitcher = document.getElementById('mode');
@@ -16,6 +17,8 @@ var Page_Base = {
         var lightNav = ["navbar-light", "bg-white", "border-bottom"];
         var darkFooter = ["bg-dark", "footer-border"];
         var lightFooter = ["bg-white", "border-top"];
+        var darkTable = ["table-dark"];
+        var lightTable = [];
 
         // Get last saved mode from localStorage.
         var mode = window.localStorage.getItem("mode") == null ? "dark" : window.localStorage.getItem("mode");
@@ -28,6 +31,11 @@ var Page_Base = {
             navbar.classList.add(lightNav[0], lightNav[1], lightNav[2]);
             footer.classList.remove(darkFooter[0], darkFooter[1]);
             footer.classList.add(lightFooter[0], lightFooter[1]);
+
+            for (i = 0; i < tables.length; i++) {
+                var table = tables[i];
+                table.classList.remove(darkTable[0]);
+            }
         }
 
         // Switch from Light to Dark mode.
@@ -38,6 +46,11 @@ var Page_Base = {
             navbar.classList.add(darkNav[0], darkNav[1], darkNav[2]);
             footer.classList.remove(lightFooter[0], lightFooter[1]);
             footer.classList.add(darkFooter[0], darkFooter[1]);
+
+            for (i = 0; i < tables.length; i++) {
+                var table = tables[i];
+                table.classList.add(darkTable[0]);
+            }
         }
 
         // Save mode value to localStorage.

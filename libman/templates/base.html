@@ -12,7 +12,7 @@
     <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 
-    <title>LIBMAN - {% block title %}{% endblock%}</title>
+    <title>LIBMAN - {% block title %}{% endblock %}</title>
 </head>
 
 <body class="bg-dark text-light" onload="Page_Base.switchMode()">
@@ -51,18 +51,16 @@
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button> -->
+                <div class="d-flex">
                     <img src="{{ url_for('static', filename='images/mode.png') }}" id="mode"
-                        onclick="Page_Base.switchMode(true)" class="mode-switch" />
-                </form>
+                        onclick="Page_Base.switchMode(true)" class="mode-switch" title="Switch mode" />
+                    </form>
+                </div>
             </div>
-        </div>
     </nav>
 
     <!-- Page Content -->
-    <div class="container mt-5 mb-5">
+    <div class="container mt-sm-5 mb-sm-5 mt-4 mb-5">
         {% block content %}
         {% endblock%}
     </div>
