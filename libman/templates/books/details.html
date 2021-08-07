@@ -69,7 +69,7 @@ Book Details
     </div>
     <div class="mt-5">
         <a href="{{ url_for('books.index') }}" class="btn btn-outline-success">Back</a>
-        <a href="{{ url_for('members.edit', id=book.bookID) }}" class="btn btn-outline-primary">Edit</a>
+        <a href="{{ url_for('books.edit', id=book.bookID) }}" class="btn btn-outline-primary">Edit</a>
         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
             data-bs-target="#modal-delete-book-{{ book.bookID }}">
             Remove

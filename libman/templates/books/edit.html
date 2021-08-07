@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 
 {% block title %}
-Add Book
+Edit Book
 {% endblock %}
 
 {% block content %}
-<h1>Add Book</h1>
+{% if form.bookID.data %}
+<h1>Edit Book</h1>
 <div class="mt-sm-5 mt-4 col-xl-3 col-lg-4 col-md-6 col-12">
     <form method="POST">
         {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.bookID.label(class="form-label") }}
+            {{ form.bookID(class="form-control not-allowed", type="number", readonly="readonly") }}
+        </div>
         <div class="mb-3">
             {{ form.title.label(class="form-label") }}
             {{ form.title(class="form-control", autofocus="true") }}
@@ -71,4 +76,10 @@ Add Book
         </div>
     </form>
 </div>
+{% else %}
+<p>
+    Book with Book ID = {{ id }} were not found. Click <a class="text-decoration-none"
+        href="{{ url_for('books.index') }}">here</a> to see all books.
+</p>
+{% endif %}
 {% endblock%}

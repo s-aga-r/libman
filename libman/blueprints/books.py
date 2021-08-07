@@ -2,7 +2,7 @@ from flask.blueprints import Blueprint
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from libman.models import Book
 from libman import db
-from libman.forms import AddBookForm
+from libman.forms import AddBookForm, EditBookForm
 import random
 
 book = Blueprint("books", __name__, url_prefix="/books")
@@ -95,3 +95,55 @@ def remove():
 def details(id):
     book = Book.query.filter_by(bookID=id).first()
     return render_template("books/details.html", book=book, id=id)
+
+
+# GET & POST - /books/edit/<id>
+@book.route("/edit/<id>", methods=["GET", "POST"])
+def edit(id):
+    form = EditBookForm()
+    book = Book.query.filter_by(bookID=id).first()
+
+    # Update and save book to database.
+    if form.validate_on_submit():
+        book.title = form.title.data
+        book.authors = form.authors.data
+        book.average_rating = form.average_rating.data
+        book.isbn = form.isbn.data
+        book.isbn13 = form.isbn13.data
+        book.language_code = form.language_code.data
+        book.num_pages = form.num_pages.data
+        book.ratings_count = form.ratings_count.data
+        book.text_reviews_count = form.text_reviews_count.data
+        book.publication_date = form.publication_date.data
+        book.publisher = form.publisher.data
+        book.rent = form.rent.data
+        db.session.commit()
+
+        flash(
+            (f"Book updated with Book ID = {form.bookID.data}.",),
+            category="success",
+        )
+        return redirect(url_for("books.index"))
+
+    # Flash error messages.
+    if form.errors != {}:
+        for err_msg in form.errors.values():
+            flash(err_msg, category="danger")
+    else:
+        # Set value for form attributes using book instance.
+        if book:
+            form.bookID.data = book.bookID
+            form.title.data = book.title
+            form.authors.data = book.authors
+            form.average_rating.data = book.average_rating
+            form.isbn.data = book.isbn
+            form.isbn13.data = book.isbn13
+            form.language_code.data = book.language_code
+            form.num_pages.data = book.num_pages
+            form.ratings_count.data = book.ratings_count
+            form.text_reviews_count.data = book.text_reviews_count
+            form.publication_date.data = book.publication_date
+            form.publisher.data = book.publisher
+            form.rent.data = book.rent
+
+    return render_template("books/edit.html", form=form, id=id)
