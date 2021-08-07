@@ -44,9 +44,33 @@
                             Manage
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ url_for('books.index') }}">Books</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('members.index') }}">Members</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('transactions.index') }}">Transactions</a>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('books.index') }}">
+                                    <span>
+                                        <img src="{{ url_for('static', filename='icons/book-half.svg') }}" />
+                                        &nbsp;
+                                        Books
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('members.index') }}">
+                                    <span>
+                                        <img src="{{ url_for('static', filename='icons/people-fill.svg') }}" />
+                                        &nbsp;
+                                        Members
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('transactions.index') }}">
+                                    <span>
+                                        <img
+                                            src="{{ url_for('static', filename='icons/file-earmark-text-fill.svg') }}" />
+                                        &nbsp;
+                                        Transactions
+                                    </span>
+                                </a>
                             </li>
                         </ul>
                     </li>
