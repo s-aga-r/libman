@@ -9,17 +9,35 @@ from libman import db
 member = Blueprint("members", __name__, url_prefix="/members")
 
 
+# GET & POST - /members
 @member.route("/", methods=["GET", "POST"])
 def index():
-    if request.method == "GET":
-        members = Member.query.all()
-        return render_template("members/index.html", members=members)
+
+    if request.method == "POST":
+        # Get member through memberID.
+        member = Member.query.filter_by(memberID=request.form.get("memberID")).first()
+        message = f"Member with Member ID = {member.memberID} "
+        if member:
+            db.session.delete(member)
+            db.session.commit()
+            message += "has been removed."
+        else:
+            message += "does not found or it has been removed earlier."
+        flash(
+            (f"{message}",),
+            category="warning",
+        )
+
+    members = Member.query.all()
+    return render_template("members/index.html", members=members)
 
 
+# GET & POST - /members/add
 @member.route("/add", methods=["GET", "POST"])
 def add():
     form = AddMemberForm()
 
+    # Add member to database.
     if form.validate_on_submit():
         member = Member(first_name=form.first_name.data, last_name=form.last_name.data)
         db.session.add(member)
@@ -30,6 +48,7 @@ def add():
         )
         return redirect(url_for("members.index"))
 
+    # Flash error messages.
     if form.errors != {}:
         for err_msg in form.errors.values():
             flash(err_msg, category="danger")
@@ -37,11 +56,13 @@ def add():
     return render_template("members/add.html", form=form)
 
 
+# GET & POST - /members/edit/<id>
 @member.route("/edit/<id>", methods=["GET", "POST"])
 def edit(id):
     form = EditMemberForm()
     member = Member.query.filter_by(memberID=id).first()
 
+    # Update and save member to database.
     if form.validate_on_submit():
         member.first_name = form.first_name.data
         member.last_name = form.last_name.data
@@ -54,10 +75,12 @@ def edit(id):
         )
         return redirect(url_for("members.index"))
 
+    # Flash error messages.
     if form.errors != {}:
         for err_msg in form.errors.values():
             flash(err_msg, category="danger")
     else:
+        # Set value for form attributes using member instance.
         if member:
             form.memberID.data = member.memberID
             form.first_name.data = member.first_name

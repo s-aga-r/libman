@@ -1,17 +1,21 @@
-.nav-border-bottom{
+.nav-border-bottom {
     border-bottom: 1px solid #424242;
 }
-.footer-border{
+
+.footer-border {
     border-top: 1px solid #424242;
 }
-#mode{
-    width:30px;
-    height: 30px;
+
+.mode {
+    width: 24px;
+    height: 24px;
     cursor: pointer;
 }
-.mode-switch{
+
+.mode-switch {
     filter: invert(100%);
 }
+
 .not-allowed {
     pointer-events: auto! important;
     cursor: not-allowed! important;

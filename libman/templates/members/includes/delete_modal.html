@@ -1,0 +1,22 @@
+<div class="modal fade" id="modal-delete-member-{{ member.memberID }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Confirmation</h5>
+                <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove member <b>{{member.first_name }} {{member.last_name}}</b> with <b>Member
+                    ID = {{member.memberID }}</b>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">No</button>
+                <form method="POST">
+                    <input type="hidden" name="memberID" value="{{ member.memberID }}" />
+                    <input type="submit" class="btn btn-outline-danger" value="Yes" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

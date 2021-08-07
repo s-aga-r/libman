@@ -37,6 +37,7 @@ Members
                 </thead>
                 <tbody>
                     {% for member in members %}
+                    {% include "members/includes/delete_modal.html" %}
                     <tr>
                         <th scope="row">{{ member.memberID }}</th>
                         <td>{{ member.first_name }} {{ member.last_name }}</td>
@@ -45,9 +46,10 @@ Members
                             <a href="" class="btn btn-outline-success">Transactions</a>
                             <a href="{{ url_for('members.edit', id = member.memberID) }}"
                                 class="btn btn-outline-primary">Edit</a>
-                            <form class="d-inline" method="POST">
-                                <input type="submit" class="btn btn-outline-danger" value="Remove" />
-                            </form>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#modal-delete-member-{{ member.memberID }}">
+                                Remove
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}

@@ -12,6 +12,7 @@ var Page_Base = {
         var navbar = document.getElementById('nav');
         var footer = document.getElementById('footer');
         var tables = document.getElementsByClassName('table');
+        var modals = document.getElementsByClassName('modal-content');
 
         // Toggle between light and dark mode.
         function toggleMode() {
@@ -29,6 +30,13 @@ var Page_Base = {
             tableClasses.map(c => {
                 for (i = 0; i < tables.length; i++) {
                     tables[i].classList.toggle(c);
+                }
+            });
+            // Modals
+            modalClasses = ["bg-dark"];
+            modalClasses.map(c => {
+                for (i = 0; i < modals.length; i++) {
+                    modals[i].classList.toggle(c);
                 }
             });
             // Switch mode icon
