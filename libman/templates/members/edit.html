@@ -12,18 +12,22 @@ Edit Member
         {{ form.hidden_tag() }}
         <div class="mb-3">
             {{ form.member_id.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.member_id(class="form-control not-allowed", type="number", readonly="readonly") }}
         </div>
         <div class="mb-3">
             {{ form.first_name.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.first_name(class="form-control") }}
         </div>
         <div class="mb-3">
             {{ form.last_name.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.last_name(class="form-control") }}
         </div>
         <div class="mb-3">
             {{ form.outstanding_amount.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.outstanding_amount(class="form-control", type="number", min="0", max="500") }}
         </div>
         <div class="row mt-4">

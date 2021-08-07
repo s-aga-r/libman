@@ -11,10 +11,12 @@ Add Member
         {{ form.hidden_tag() }}
         <div class="mb-3">
             {{ form.first_name.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.first_name(class="form-control", autofocus="true") }}
         </div>
         <div class="mb-3">
             {{ form.last_name.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.last_name(class="form-control") }}
         </div>
         <div class="row mt-4">

@@ -11,55 +11,68 @@ Add Book
         {{ form.hidden_tag() }}
         <div class="mb-3">
             {{ form.title.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.title(class="form-control", autofocus="true") }}
         </div>
         <div class="mb-3">
             {{ form.authors.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.authors(class="form-control") }}
         </div>
         <div class="mb-3">
             {{ form.average_rating.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.average_rating(class="form-control") }}
         </div>
         <div class="mb-3">
             {{ form.isbn.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.isbn(class="form-control") }}
         </div>
         <div class="mb-3">
             {{ form.isbn13.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.isbn13(class="form-control") }}
         </div>
         <div class="mb-3">
             {{ form.language_code.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.language_code(class="form-control") }}
         </div>
         <div class="mb-3">
             {{ form.num_pages.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.num_pages(class="form-control", type="number", min="1") }}
         </div>
         <div class="mb-3">
             {{ form.ratings_count.label(class="form-label") }}
-            {{ form.ratings_count(class="form-control", type="number", min="1") }}
+            <label class="text-danger">*</label>
+            {{ form.ratings_count(class="form-control", type="number", min="0") }}
         </div>
         <div class="mb-3">
             {{ form.text_reviews_count.label(class="form-label") }}
-            {{ form.text_reviews_count(class="form-control", type="number", min="1") }}
+            <label class="text-danger">*</label>
+            {{ form.text_reviews_count(class="form-control", type="number", min="0") }}
         </div>
         <div class="mb-3">
             {{ form.publication_date.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.publication_date(class="form-control", type="date") }}
         </div>
         <div class="mb-3">
             {{ form.publisher.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.publisher(class="form-control") }}
         </div>
         <div class="mb-3">
             {{ form.quantity.label(class="form-label") }}
-            {{ form.quantity(class="form-control") }}
+            <label class="text-danger">*</label>
+            {{ form.quantity(class="form-control", type="number", min="0") }}
         </div>
         <div class="mb-3">
             {{ form.rent.label(class="form-label") }}
-            {{ form.rent(class="form-control", type="number", min="1") }}
+            <label class="text-danger">*</label>
+            {{ form.rent(class="form-control", type="number", min="0") }}
         </div>
         <div class="row mt-4">
             <div class="col-6">
