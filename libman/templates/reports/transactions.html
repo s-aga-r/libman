@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions-Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .table-danger {
+            background-color: #DC3545;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Transactions</h1>
+    <br />
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th scope="col">Transaction ID</th>
+                <th scope="col" colspan="5">Book</th>
+                <th scope="col" colspan="2">Member</th>
+                <th scope="col">Rent</th>
+                <th scope="col">Issue Date</th>
+                <th scope="col">Return Date</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th scope="col">Book ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Authors</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Rent</th>
+                <th scope="col">Name</th>
+                <th scope="col">O/S Amount</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for transaction in transactions %}
+            <tr>
+                <!-- Transaction ID -->
+                <th scope="row">{{ transaction.transaction_id }}</th>
+                <!-- Book -->
+                {% if transaction.book.book_id %}
+                <td>{{ transaction.book.book_id }}</td>
+                <td>{{ transaction.book }}</td>
+                <td>{{ transaction.book.authors }}</td>
+                <td>{{ transaction.book.quantity }}</td>
+                <td>{{ transaction.book.rent }}</td>
+                {% else %}
+                <td class="table-danger">-</td>
+                <td class="table-danger">-</td>
+                <td class="table-danger">-</td>
+                <td class="table-danger">-</td>
+                <td class="table-danger">-</td>
+                {% endif %}
+                <!-- Member -->
+                {% if transaction.member.first_name %}
+                <td>{{ transaction.member }}</td>
+                <td>{{ transaction.member.outstanding_amount }}</td>
+                {% else %}
+                <td class="table-danger">-</td>
+                <td class="table-danger">-</td>
+                {% endif %}
+                <!-- Rent -->
+                <td>{{ transaction.rent }}&#8377</td>
+                <!-- Issue Date -->
+                <td>{{ transaction.issue_date }}</td>
+                <!-- Return Date -->
+                {% if transaction.return_date %}
+                <td>{{ transaction.return_date }}</td>
+                {% else %}
+                <td class="table-danger">Not return yet</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

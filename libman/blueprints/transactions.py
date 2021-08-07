@@ -1,12 +1,11 @@
-from datetime import date, datetime
+from datetime import date
 from flask.helpers import url_for
 from werkzeug.utils import redirect
 from libman.models.transaction import Transaction
 from flask.blueprints import Blueprint
 from flask import Blueprint, render_template, flash, request
 from libman.forms import IssueBookForm, ReturnBookForm
-from libman.models import Book, Member, member
-from libman.application import db
+from libman.models import Book, Member
 
 transaction = Blueprint("transactions", __name__, url_prefix="/transactions")
 

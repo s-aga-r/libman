@@ -52,19 +52,9 @@ class Book(db.Model):
     def __repr__(self) -> str:
         return f"{self.title}"
 
-    @staticmethod
-    def search_by(search):
-        return Book.query.filter(
-            (Book.title + " " + Book.authors).like(f"%{search}%")
-        ).all()
-
     def add(self):
         db.session.add(self)
         db.session.commit()
-
-    @staticmethod
-    def get_by_id(id):
-        return Book.query.filter_by(book_id=id).first()
 
     def remove(self):
         db.session.delete(self)
@@ -101,13 +91,6 @@ class Book(db.Model):
         self.rent = rent
         db.session.commit()
 
-    @staticmethod
-    def books_in_stock():
-        return [
-            (book.book_id, book.title)
-            for book in Book.query.filter(Book.quantity > 0).all()
-        ]
-
     def issue(self, member, transaction):
         self.quantity -= 1
         member.outstanding_amount += self.rent
@@ -118,3 +101,20 @@ class Book(db.Model):
         self.quantity += 1
         member.outstanding_amount -= transaction.rent
         db.session.commit()
+
+    @staticmethod
+    def search_by(search):
+        return Book.query.filter(
+            (Book.title + " " + Book.authors).like(f"%{search}%")
+        ).all()
+
+    @staticmethod
+    def get_by_id(id):
+        return Book.query.filter_by(book_id=id).first()
+
+    @staticmethod
+    def books_in_stock():
+        return [
+            (book.book_id, book.title)
+            for book in Book.query.filter(Book.quantity > 0).all()
+        ]

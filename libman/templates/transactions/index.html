@@ -67,7 +67,7 @@ Transactions
                         <td class="text-danger">Removed</td>
                         {% endif %}
                         {% if transaction.member.first_name %}
-                        <td>{{ transaction.member.first_name }} {{ transaction.member.last_name }}</td>
+                        <td>{{ transaction.member }}</td>
                         {% else %}
                         <td class="text-danger">Removed</td>
                         {% endif %}

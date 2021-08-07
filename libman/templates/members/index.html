@@ -41,7 +41,7 @@ Members
                     {% include "members/includes/delete_modal.html" %}
                     <tr>
                         <th scope="row">{{ member.member_id }}</th>
-                        <td>{{ member.first_name }} {{ member.last_name }}</td>
+                        <td>{{ member }}</td>
                         <td>{{ member.outstanding_amount }}&#8377</td>
                         <td>
                             <a href="{{ url_for('transactions.member_transactions', id = member.member_id) }}"

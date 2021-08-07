@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books-Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .table-danger {
+            background-color: #DC3545;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Books</h1>
+    <br />
+    <table class="table text-nowrap text-center">
+        <thead>
+            <tr>
+                <th scope="col">Book ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Authors</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Rent</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <th>{{ book.book_id }}</th>
+                <td>{{ book.title }}</td>
+                <td>{{ book.authors }}</td>
+                {% if book.quantity %}
+                <td>{{ book.quantity }}</td>
+                {% else %}
+                <td class="table-danger">0</td>
+                {% endif %}
+                <td>{{ book.rent }}&#8377</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

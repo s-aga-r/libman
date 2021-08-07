@@ -15,19 +15,9 @@ class Member(db.Model):
     def __repr__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
-    @staticmethod
-    def search_by(search):
-        return Member.query.filter(
-            (Member.first_name + " " + Member.last_name).like(f"%{search}%")
-        ).all()
-
     def add(self):
         db.session.add(self)
         db.session.commit()
-
-    @staticmethod
-    def get_by_id(id):
-        return Member.query.filter_by(member_id=id).first()
 
     def remove(self):
         db.session.delete(self)
@@ -38,6 +28,16 @@ class Member(db.Model):
         self.last_name = last_name
         self.outstanding_amount = outstanding_amount
         db.session.commit()
+
+    @staticmethod
+    def search_by(search):
+        return Member.query.filter(
+            (Member.first_name + " " + Member.last_name).like(f"%{search}%")
+        ).all()
+
+    @staticmethod
+    def get_by_id(id):
+        return Member.query.filter_by(member_id=id).first()
 
     @staticmethod
     def members():

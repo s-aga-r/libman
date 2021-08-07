@@ -12,8 +12,9 @@ def index():
     return render_template("index.html")
 
 
-from libman.blueprints import book, member, transaction
+from libman.blueprints import book, member, transaction, report
 
 app.register_blueprint(book)
 app.register_blueprint(member)
 app.register_blueprint(transaction)
+app.register_blueprint(report)
