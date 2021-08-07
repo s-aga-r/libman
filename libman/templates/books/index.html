@@ -5,7 +5,14 @@ Books
 {% endblock %}
 
 {% block content %}
-<h1>Books</h1>
+<div>
+    <h1 class="d-inline-block">Books</h1>
+    <div class="float-end">
+        <form method="POST" action="{{ url_for('books.seed') }}">
+            <input class="btn btn-outline-warning" type="submit" value="Seed" title="Get books from API" />
+        </form>
+    </div>
+</div>
 <div class="mt-sm-5 mt-4">
     {% if books %}
     <div>
@@ -19,7 +26,7 @@ Books
                     <div class="input-group">
                         <input type="search" class="form-control" placeholder="Book / Author Name"
                             aria-describedby="button-search" name="s">
-                        <input type="submit" class="btn btn-outline-success" value="Search" id="button-search" />
+                        <input type="submit" class="btn btn-outline-primary" value="Search" id="button-search" />
                     </div>
                 </form>
             </div>
@@ -41,8 +48,8 @@ Books
                     {% include "books/includes/delete_modal.html" %}
                     <tr>
                         <th scope="row">{{ book.bookID }}</th>
-                        <td>{{ book.title }}</td>
-                        <td>{{ book.authors }}</td>
+                        <td class="text-wrap">{{ book.title }}</td>
+                        <td class="text-wrap">{{ book.authors }}</td>
                         <td>{{ book.rent }}&#8377</td>
                         <td>
                             <a href="{{ url_for('books.details', id=book.bookID) }}"

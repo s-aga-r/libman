@@ -5,7 +5,8 @@ var Page_Base = {
         var mode = window.localStorage.getItem("mode") == null ? "dark" : window.localStorage.getItem("mode");
 
         // Switch Button.
-        var modeSwitcher = document.getElementById('mode');
+        var darkModeIcon = document.getElementById('light-mode');
+        var lightModeIcon = document.getElementById('dark-mode');
 
         // Elements to change.
         var body = document.body;
@@ -40,8 +41,11 @@ var Page_Base = {
                 }
             });
             // Switch mode icon
-            iconClasses = ["mode-switch"];
-            iconClasses.map(c => modeSwitcher.classList.toggle(c));
+            iconClasses = ["d-none"];
+            iconClasses.map(c => {
+                darkModeIcon.classList.toggle(c);
+                lightModeIcon.classList.toggle(c);
+            });
         }
 
         // Save mode value to localStorage.

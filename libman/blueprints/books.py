@@ -1,9 +1,11 @@
+from hashlib import new
 from flask.blueprints import Blueprint
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from libman.models import Book
 from libman import db
 from libman.forms import AddBookForm, EditBookForm
-import random
+import random, requests
+from datetime import datetime
 
 book = Blueprint("books", __name__, url_prefix="/books")
 
@@ -147,3 +149,69 @@ def edit(id):
             form.rent.data = book.rent
 
     return render_template("books/edit.html", form=form, id=id)
+
+
+# POST - /books/seed
+@book.route("/seed", methods=["POST"])
+def seed():
+    response = requests.get("https://frappe.io/api/method/frappe-library")
+    json_response = response.json()
+    books = list(json_response["message"])
+
+    # Get existing book id's in a list.
+    existing_book_ids = []
+    for book_id in db.session.query(Book.bookID).all():
+        existing_book_ids.append(book_id[0])
+
+    skipped_book_count = 0
+    for book in books:
+        # Only add those books, which are not available in the database.
+        if int(book["bookID"]) not in existing_book_ids:
+            new_book = Book(
+                title=book["title"],
+                authors=book["authors"],
+                average_rating=float(book["average_rating"]),
+                isbn=book["isbn"],
+                isbn13=book["isbn13"],
+                language_code=book["language_code"],
+                num_pages=int(book["  num_pages"]),
+                ratings_count=int(book["ratings_count"]),
+                text_reviews_count=int(book["text_reviews_count"]),
+                publication_date=datetime.strptime(
+                    book["publication_date"], "%m/%d/%Y"
+                ).date(),
+                publisher=book["publisher"],
+                rent=random.randint(50, 100),
+            )
+            new_book.bookID = book["bookID"]
+            db.session.add(new_book)
+        else:
+            skipped_book_count += 1
+    try:
+        db.session.commit()
+        if skipped_book_count == 0:
+            flash(
+                (f"{len(books)} new books were added.",),
+                category="success",
+            )
+        elif skipped_book_count == len(books):
+            flash(
+                ("All books got from API are already in the database.",),
+                category="warning",
+            )
+        else:
+            flash(
+                (
+                    f"Total {len(books)} books data got from API, "
+                    f"{len(books) - skipped_book_count} books were added "
+                    f"and {skipped_book_count} of them are already exists in the database.",
+                ),
+                category="success",
+            )
+    except:
+        flash(
+            ("An error has occured while seeding the database!",),
+            category="danger",
+        )
+
+    return redirect(url_for("books.index"))
