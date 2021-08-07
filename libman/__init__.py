@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///libman.db"
+app.config["SECRET_KEY"] = "bae3b712897afc8e575d03d1"
 db = SQLAlchemy(app)
 
 
