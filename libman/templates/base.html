@@ -77,9 +77,11 @@
                 </ul>
                 <div class="d-flex">
                     <img src="{{ url_for('static', filename='icons/sun-fill.svg') }}" id="light-mode"
-                        onclick="Page_Base.switchMode(true)" class="mode invert" title="Light mode" alt="Light" />
+                        onclick="Page_Base.switchMode(true)" class="mode invert" title="Switch to Light mode"
+                        alt="Light" />
                     <img src="{{ url_for('static', filename='icons/moon-fill.svg') }}" id="dark-mode"
-                        onclick="Page_Base.switchMode(true)" class="mode d-none" title="Dark mode" alt="Dark" />
+                        onclick="Page_Base.switchMode(true)" class="mode d-none" title="Switch to Dark mode"
+                        alt="Dark" />
                 </div>
             </div>
     </nav>

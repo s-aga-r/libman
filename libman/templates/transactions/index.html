@@ -5,27 +5,48 @@ Transactions
 {% endblock %}
 
 {% block content %}
-<div>
-    <h1 class="d-inline-block">Transactions</h1>
-    <div class="float-end">
-        <a href="{{ url_for('transactions.issue_book') }}" class="btn success btn-outline-success">Book Issue</a>
-    </div>
-</div>
+<h1>Transactions</h1>
 <div class="mt-sm-5 mt-4">
     {% if transactions %}
-    <!-- Issue Book and Search Button -->
-    <div class="row mb-sm-5 mb-4">
-        <div class="col-xl-8 col-lg-8 col-md-7 col-sm-4 mb-2 d-grid gap-2 d-md-block">
-            <a href="{{ url_for('transactions.return_book') }}" class="btn warning btn-outline-warning">Book Return</a>
+    <div>
+        <!-- Issue Book and Search Button -->
+        <div class="mb-sm-5 mb-4">
+            <a href="{{ url_for('transactions.issue_book') }}" class="btn success btn-outline-success">Book
+                Issue</a>
+            <a href="{{ url_for('transactions.return_book') }}" class="btn warning btn-outline-warning">Book
+                Return</a>
         </div>
-        <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8 col-12 mb-2">
-            <form method="GET">
-                <div class="input-group">
-                    <input type="search" class="form-control" placeholder="Book / Author / Member Name"
-                        aria-describedby="button-search" name="s">
-                    <input type="submit" class="btn primary btn-outline-primary" value="Search" id="button-search" />
-                </div>
-            </form>
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-hover table-dark text-nowrap">
+                <thead>
+                    <tr>
+                        <th scope="col">Transaction ID</th>
+                        <th scope="col">Book</th>
+                        <th scope="col">Member</th>
+                        <th scope="col">Rent</th>
+                        <th scope="col">Issue Date</th>
+                        <th scope="col">Return Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <th scope="row">{{ transaction.transaction_id }}</th>
+                        <td class="text-limit-35" title="{{ books.get(transaction.book_id) }}">{{
+                            books.get(transaction.book_id) }}</td>
+                        <td>{{ members.get(transaction.member_id) }}</td>
+                        <td>{{ transaction.rent }}&#8377</td>
+                        <td>{{ transaction.issue_date }}</td>
+                        {% if transaction.return_date %}
+                        <td>{{ transaction.return_date }}</td>
+                        {% else %}
+                        <td class="text-danger">Not return yet</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
     {% else %}

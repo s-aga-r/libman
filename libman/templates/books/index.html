@@ -33,7 +33,7 @@ Books
             </div>
         </div>
         <!-- Table -->
-        <div class="overflow-auto">
+        <div class="table-responsive">
             <table class="table table-hover table-dark text-nowrap">
                 <thead>
                     <tr>
@@ -50,8 +50,8 @@ Books
                     {% include "books/includes/delete_modal.html" %}
                     <tr>
                         <th scope="row">{{ book.book_id }}</th>
-                        <td class="text-wrap">{{ book.title }}</td>
-                        <td class="text-wrap">{{ book.authors }}</td>
+                        <td class="text-wrap" title="{{ book.title }}">{{ book.title }}</td>
+                        <td class="text-wrap" title="{{ book.authors }}">{{ book.authors }}</td>
                         <td>{{ book.quantity }}</td>
                         <td>{{ book.rent }}&#8377</td>
                         <td>

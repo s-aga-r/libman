@@ -41,9 +41,12 @@ Edit Member
     </form>
 </div>
 {% else %}
-<p>
-    Member with Member ID = {{ id }} were not found. Click <a class="text-decoration-none"
-        href="{{ url_for('members.index') }}">here</a> to see all members.
-</p>
+<div>
+    <p>Click <a class="text-decoration-none" href="{{ url_for('members.index') }}"><b>here</b></a>
+        to see all members.</p>
+    <div class="text-center">
+        <img class="img-fluid col-xl-6 col-lg-8" src="{{ url_for('static', filename='images/no-data.svg') }}" alt="" />
+    </div>
+</div>
 {% endif %}
 {% endblock%}

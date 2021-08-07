@@ -21,3 +21,15 @@
     cursor: not-allowed! important;
 }
 
+.text-limit, .text-limit-35, .text-limit-20{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.text-limit-35{
+    max-width: 35ch; 
+}
+.text-limit-20{
+    max-width: 20ch; 
+}
+

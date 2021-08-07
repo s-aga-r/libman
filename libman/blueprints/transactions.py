@@ -14,7 +14,24 @@ transaction = Blueprint("transactions", __name__, url_prefix="/transactions")
 @transaction.route("/")
 def index():
     transactions = Transaction.query.all()
-    return render_template("transactions/index.html", transactions=transactions)
+    books_id = [transaction.book_id for transaction in transactions]
+    members_id = [transaction.member_id for transaction in transactions]
+    books = {
+        book.book_id: book.title
+        for book in Book.query.all()
+        if book.book_id in books_id
+    }
+    members = {
+        member.member_id: member.first_name + " " + member.last_name
+        for member in Member.query.all()
+        if member.member_id in members_id
+    }
+    return render_template(
+        "transactions/index.html",
+        transactions=transactions,
+        books=books,
+        members=members,
+    )
 
 
 # GET & POST - /transactions/issue-book
@@ -127,3 +144,9 @@ def return_book():
             )
 
     return render_template("transactions/return-book.html", form=form)
+
+
+# GET - /transactions/member/<id>
+@transaction.route("/member/<id>")
+def member_transactions(id):
+    pass
