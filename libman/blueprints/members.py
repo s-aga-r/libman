@@ -33,7 +33,7 @@ def index():
     search = request.args.get("s")
     if search:
         members = db.engine.execute(
-            f"SELECT * FROM member WHERE first_name || last_name LIKE '%{search}%'"
+            f"SELECT * FROM member WHERE first_name || ' ' || last_name LIKE '%{search}%'"
         )
         flash((f"Search results for : {search}",), category="info")
     else:

@@ -5,5 +5,62 @@ Books
 {% endblock %}
 
 {% block content %}
-<h2>Manage Books</h2>
+<h1>Books</h1>
+<div class="mt-sm-5 mt-4">
+    {% if books %}
+    <div>
+        <!-- Add and Search Button -->
+        <div class="row mb-sm-5 mb-4">
+            <div class="col-xl-8 col-lg-8 col-md-7 col-sm-4 mb-2 d-grid gap-2 d-md-block">
+                <a href="{{ url_for('books.add') }}" class="btn btn-outline-success">Add Book</a>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8 col-12 mb-2">
+                <form method="GET">
+                    <div class="input-group">
+                        <input type="search" class="form-control" placeholder="Book / Author Name"
+                            aria-describedby="button-search" name="s">
+                        <input type="submit" class="btn btn-outline-success" value="Search" id="button-search" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Table -->
+        <div class="overflow-auto">
+            <table class="table table-hover table-dark text-nowrap">
+                <thead>
+                    <tr>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Authors</th>
+                        <th scope="col">Rent</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                    {% include "books/includes/delete_modal.html" %}
+                    <tr>
+                        <th scope="row">{{ book.bookID }}</th>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.authors }}</td>
+                        <td>{{ book.rate }}&#8377</td>
+                        <td>
+                            <a href="" class="btn btn-outline-success">Transactions</a>
+                            <a href="" class="btn btn-outline-primary">Edit</a>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#modal-delete-book-{{ book.bookID }}">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <p>There are no books, click <a class="text-decoration-none" href="{{ url_for('books.add') }}">here</a>
+        to add book.</p>
+    {% endif %}
+</div>
 {% endblock%}
