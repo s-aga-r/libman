@@ -9,26 +9,9 @@ from libman import db
 member = Blueprint("members", __name__, url_prefix="/members")
 
 
-# GET & POST - /members
-@member.route("/", methods=["GET", "POST"])
+# GET - /members
+@member.route("/", methods=["GET"])
 def index():
-
-    # Delete member.
-    if request.method == "POST":
-        # Get member through memberID.
-        member = Member.query.filter_by(memberID=request.form.get("memberID")).first()
-        message = f"Member with Member ID = {member.memberID} "
-        if member:
-            db.session.delete(member)
-            db.session.commit()
-            message += "has been removed."
-        else:
-            message += "does not found or it has been removed earlier."
-        flash(
-            (f"{message}",),
-            category="warning",
-        )
-
     # Search.
     search = request.args.get("s")
     if search:
@@ -64,6 +47,25 @@ def add():
             flash(err_msg, category="danger")
 
     return render_template("members/add.html", form=form)
+
+
+# POST - /books/remove
+@member.route("/remove", methods=["POST"])
+def remove():
+    # Get member through memberID.
+    member = Member.query.filter_by(memberID=request.form.get("memberID")).first()
+    message = f"Member with Member ID = {member.memberID} "
+    if member:
+        db.session.delete(member)
+        db.session.commit()
+        message += "has been removed."
+    else:
+        message += "does not found or it has been removed earlier."
+    flash(
+        (f"{message}",),
+        category="warning",
+    )
+    return redirect(url_for("members.index"))
 
 
 # GET & POST - /members/edit/<id>

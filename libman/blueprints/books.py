@@ -8,25 +8,9 @@ import random
 book = Blueprint("books", __name__, url_prefix="/books")
 
 
-# GET & POST - /books
-@book.route("/", methods=["GET", "POST"])
+# GET - /books
+@book.route("/", methods=["GET"])
 def index():
-
-    # Delete book.
-    if request.method == "POST":
-        # Get book through bookID.
-        book = Book.query.filter_by(bookID=request.form.get("bookID")).first()
-        message = f"Book with Book ID = {book.bookID} "
-        if book:
-            db.session.delete(book)
-            db.session.commit()
-            message += "has been removed."
-        else:
-            message += "does not found or it has been removed earlier."
-        flash(
-            (f"{message}",),
-            category="warning",
-        )
 
     # Search.
     search = request.args.get("s")
@@ -85,3 +69,29 @@ def add():
         form.rent.data = random.randint(50, 100)
 
     return render_template("books/add.html", form=form)
+
+
+# POST - /books/remove
+@book.route("/remove", methods=["POST"])
+def remove():
+    # Get book through bookID.
+    book = Book.query.filter_by(bookID=request.form.get("bookID")).first()
+    message = f"Book with Book ID = {book.bookID} "
+    if book:
+        db.session.delete(book)
+        db.session.commit()
+        message += "has been removed."
+    else:
+        message += "does not found or it has been removed earlier."
+    flash(
+        (f"{message}",),
+        category="warning",
+    )
+    return redirect(url_for("books.index"))
+
+
+# GET - /books/details<id>
+@book.route("/details/<id>", methods=["GET"])
+def details(id):
+    book = Book.query.filter_by(bookID=id).first()
+    return render_template("books/details.html", book=book, id=id)

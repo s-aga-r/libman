@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.fields.core import DateField, IntegerField
-from wtforms.validators import Length, DataRequired
+from wtforms.validators import Length, DataRequired, ValidationError
+from libman.models import Book
 
 
 class AddBookForm(FlaskForm):
@@ -28,3 +29,27 @@ class AddBookForm(FlaskForm):
     )
     rent = IntegerField(label="Rent", validators=[DataRequired()])
     submit = SubmitField(label="Save")
+
+    def validate_average_rating(self, average_rating):
+        try:
+            val = float(average_rating.data)
+            if not (val >= 1.0 and val <= 5.0):
+                raise ValueError
+        except:
+            raise ValidationError(
+                "Average Rating must be a decimal value between 1.0 to 5.0"
+            )
+
+    def validate_isbn(self, isbn):
+        if not (isbn.data.isnumeric() and len(isbn.data) == 10):
+            raise ValidationError("ISBN must be a number of 10 digits.")
+        book = Book.query.filter_by(isbn=isbn.data).first()
+        if book:
+            raise ValidationError("ISBN must be unique for every book.")
+
+    def validate_isbn13(self, isbn13):
+        if not (isbn13.data.isnumeric() and len(isbn13.data) == 13):
+            raise ValidationError("ISBN13 must be a number of 13 digits.")
+        book = Book.query.filter_by(isbn13=isbn13.data).first()
+        if book:
+            raise ValidationError("ISBN13 must be unique for every book.")

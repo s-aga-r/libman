@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}
+Book Details
+{% endblock %}
+
+{% block content %}
+{% if book.bookID %}
+<h1>Book Details</h1>
+{% include "books/includes/delete_modal.html" %}
+<div class="mt-sm-5 mt-4 col-12">
+    <div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Book ID :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.bookID }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Title :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.title }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Authors :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.authors }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Average Rating :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.average_rating }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>ISBN :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.isbn }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>ISBN13 :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.isbn13 }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Language Code :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.language_code }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Number of Pages :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.num_pages }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Ratings Count :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.ratings_count }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Text Reviews Count :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.text_reviews_count }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Publication Date :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.publication_date }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Publisher :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.publisher }}</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Rent :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.rent }}&#8377</div>
+        </div>
+        <!-- <div class="row mb-3">
+            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5 col-12"><b>Transactions :</b></div>
+            <div class="col-xl-10 col-lg-9 col-md-8 col-sm-7 col-12">{{ book.rent }}</div>
+        </div> -->
+    </div>
+    <div class="mt-5">
+        <a href="{{ url_for('books.index') }}" class="btn btn-outline-success">Back</a>
+        <a href="{{ url_for('members.edit', id=book.bookID) }}" class="btn btn-outline-primary">Edit</a>
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+            data-bs-target="#modal-delete-book-{{ book.bookID }}">
+            Remove
+        </button>
+    </div>
+</div>
+{% else %}
+<p>
+    Book with Book ID = {{ id }} were not found. Click <a class="text-decoration-none"
+        href="{{ url_for('books.index') }}">here</a> to see all books.
+</p>
+{% endif %}
+{% endblock%}

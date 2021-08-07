@@ -43,9 +43,10 @@ Books
                         <th scope="row">{{ book.bookID }}</th>
                         <td>{{ book.title }}</td>
                         <td>{{ book.authors }}</td>
-                        <td>{{ book.rate }}&#8377</td>
+                        <td>{{ book.rent }}&#8377</td>
                         <td>
-                            <a href="" class="btn btn-outline-success">Transactions</a>
+                            <a href="{{ url_for('books.details', id=book.bookID) }}"
+                                class="btn btn-outline-success">Details</a>
                             <a href="" class="btn btn-outline-primary">Edit</a>
                             <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                                 data-bs-target="#modal-delete-book-{{ book.bookID }}">

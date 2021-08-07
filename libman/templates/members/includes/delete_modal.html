@@ -12,7 +12,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">No</button>
-                <form method="POST">
+                <form method="POST" action="{{ url_for('members.remove') }}">
                     <input type="hidden" name="memberID" value="{{ member.memberID }}" />
                     <input type="submit" class="btn btn-outline-danger" value="Yes" />
                 </form>

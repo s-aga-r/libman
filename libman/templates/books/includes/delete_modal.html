@@ -12,7 +12,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">No</button>
-                <form method="POST">
+                <form method="POST" action="{{ url_for('books.remove') }}">
                     <input type="hidden" name="bookID" value="{{ book.bookID }}" />
                     <input type="submit" class="btn btn-outline-danger" value="Yes" />
                 </form>
