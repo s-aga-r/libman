@@ -1,3 +1,4 @@
+from sqlalchemy.orm import backref, lazyload
 from libman import db
 import random
 
@@ -17,6 +18,7 @@ class Book(db.Model):
     publisher = db.Column(db.String(), nullable=False)
     quantity = db.Column(db.Integer(), nullable=False, default=random.randint(1, 10))
     rent = db.Column(db.Integer(), nullable=False, default=random.randint(50, 100))
+    transactions = db.relationship("Transaction", backref="book", lazy=True)
 
     def __init__(
         self,

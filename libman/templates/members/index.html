@@ -44,7 +44,8 @@ Members
                         <td>{{ member.first_name }} {{ member.last_name }}</td>
                         <td>{{ member.outstanding_amount }}&#8377</td>
                         <td>
-                            <a href="" class="btn success btn-outline-success">Transactions</a>
+                            <a href="{{ url_for('transactions.member_transactions', id = member.member_id) }}"
+                                class="btn success btn-outline-success">Transactions</a>
                             <a href="{{ url_for('members.edit', id = member.member_id) }}"
                                 class="btn primary btn-outline-primary">Edit</a>
                             <button type="button" class="btn danger btn-outline-danger" data-bs-toggle="modal"

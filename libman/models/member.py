@@ -6,6 +6,7 @@ class Member(db.Model):
     first_name = db.Column(db.String(15), nullable=False)
     last_name = db.Column(db.String(15), nullable=False)
     outstanding_amount = db.Column(db.Integer(), nullable=False, default=0)
+    transactions = db.relationship("Transaction", backref="member", lazy=True)
 
     def __init__(self, first_name, last_name) -> None:
         self.first_name = first_name

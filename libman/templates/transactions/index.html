@@ -33,9 +33,9 @@ Transactions
                     {% for transaction in transactions %}
                     <tr>
                         <th scope="row">{{ transaction.transaction_id }}</th>
-                        <td class="text-limit-35" title="{{ books.get(transaction.book_id) }}">{{
-                            books.get(transaction.book_id) }}</td>
-                        <td>{{ members.get(transaction.member_id) }}</td>
+                        <td class="text-limit-35" title="{{ transaction.book.title }}">{{
+                            transaction.book.title }}</td>
+                        <td>{{ transaction.member.first_name }} {{ transaction.member.last_name }}</td>
                         <td>{{ transaction.rent }}&#8377</td>
                         <td>{{ transaction.issue_date }}</td>
                         {% if transaction.return_date %}
@@ -51,8 +51,8 @@ Transactions
     </div>
     {% else %}
     <div>
-        <!-- <p>Click <a class="text-decoration-none" href="{{ url_for('transactions.issue_book') }}"><b>here</b></a>
-            to issue book.</p> -->
+        <p>Click <a class="text-decoration-none" href="{{ url_for('transactions.issue_book') }}"><b>here</b></a>
+            to issue a book.</p>
         <div class="text-center">
             <img class="img-fluid col-xl-6 col-lg-8" src="{{ url_for('static', filename='images/no-data.svg') }}"
                 alt="" />

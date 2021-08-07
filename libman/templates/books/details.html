@@ -68,8 +68,10 @@ Book Details
         </div>
     </div>
     <div class="mt-5">
-        <a href="{{ url_for('books.index') }}" class="btn success btn-outline-success">Back</a>
-        <a href="{{ url_for('books.edit', id=book.book_id) }}" class="btn primary btn-outline-primary">Edit</a>
+        <a href="{{ url_for('books.index') }}" class="btn primary btn-outline-primary">Back</a>
+        <a href="{{ url_for('transactions.book_transactions', id=book.book_id) }}"
+            class="btn success btn-outline-success">Transactions</a>
+        <a href="{{ url_for('books.edit', id=book.book_id) }}" class="btn warning btn-outline-warning">Edit</a>
         <button type="button" class="btn danger btn-outline-danger" data-bs-toggle="modal"
             data-bs-target="#modal-delete-book-{{ book.book_id }}">
             Remove

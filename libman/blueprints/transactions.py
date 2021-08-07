@@ -4,7 +4,7 @@ from libman.models.transaction import Transaction
 from flask.blueprints import Blueprint
 from flask import Blueprint, render_template, flash
 from libman.forms import IssueBookForm, ReturnBookForm
-from libman.models import Book, Member
+from libman.models import Book, Member, member
 from libman import db
 
 transaction = Blueprint("transactions", __name__, url_prefix="/transactions")
@@ -14,24 +14,7 @@ transaction = Blueprint("transactions", __name__, url_prefix="/transactions")
 @transaction.route("/")
 def index():
     transactions = Transaction.query.all()
-    books_id = [transaction.book_id for transaction in transactions]
-    members_id = [transaction.member_id for transaction in transactions]
-    books = {
-        book.book_id: book.title
-        for book in Book.query.all()
-        if book.book_id in books_id
-    }
-    members = {
-        member.member_id: member.first_name + " " + member.last_name
-        for member in Member.query.all()
-        if member.member_id in members_id
-    }
-    return render_template(
-        "transactions/index.html",
-        transactions=transactions,
-        books=books,
-        members=members,
-    )
+    return render_template("transactions/index.html", transactions=transactions)
 
 
 # GET & POST - /transactions/issue-book
@@ -149,4 +132,50 @@ def return_book():
 # GET - /transactions/member/<id>
 @transaction.route("/member/<id>")
 def member_transactions(id):
-    pass
+    member = Member.query.filter_by(member_id=id).first()
+    if member:
+        transactions = Transaction.query.filter_by(member_id=id).all()
+        if transactions:
+            flash(
+                (
+                    f"All transactions of member '{member.first_name} {member.last_name}' with Member ID = {member.member_id}.",
+                ),
+                category="info",
+            )
+        else:
+            flash(
+                (
+                    f"Member '{member.first_name} {member.last_name}' with Member ID = {member.member_id} has no transactions.",
+                ),
+                category="info",
+            )
+        return render_template("transactions/index.html", transactions=transactions)
+    else:
+        flash(("Member not found!",), category="warning")
+    return redirect(url_for("members.index"))
+
+
+# GET - /transactions/book/<id>
+@transaction.route("/book/<id>")
+def book_transactions(id):
+    book = Book.query.filter_by(book_id=id).first()
+    if book:
+        transactions = Transaction.query.filter_by(book_id=id).all()
+        if transactions:
+            flash(
+                (
+                    f"All transactions for book '{book.title}' with Book ID = {book.book_id}.",
+                ),
+                category="info",
+            )
+        else:
+            flash(
+                (
+                    f"Book '{book.title}' with Book ID = {book.book_id} has no transactions.",
+                ),
+                category="info",
+            )
+        return render_template("transactions/index.html", transactions=transactions)
+    else:
+        flash(("Book not found!",), category="warning")
+    return redirect(url_for("books.index"))
