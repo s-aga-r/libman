@@ -17,9 +17,7 @@ def index():
     # Search.
     search = request.args.get("s")
     if search:
-        books = db.engine.execute(
-            f"SELECT * FROM book WHERE title || ' ' || authors LIKE '%{search}%'"
-        )
+        books = Book.query.filter((Book.title + " " + Book.authors).like(f"%{search}%"))
         flash((f"Search results for : {search}",), category="info")
     else:
         books = Book.query.all()

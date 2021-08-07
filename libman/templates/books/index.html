@@ -40,6 +40,7 @@ Books
                         <th scope="col">Book ID</th>
                         <th scope="col">Title</th>
                         <th scope="col">Authors</th>
+                        <th scope="col">Quantity</th>
                         <th scope="col">Rent</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -51,6 +52,7 @@ Books
                         <th scope="row">{{ book.book_id }}</th>
                         <td class="text-wrap">{{ book.title }}</td>
                         <td class="text-wrap">{{ book.authors }}</td>
+                        <td>{{ book.quantity }}</td>
                         <td>{{ book.rent }}&#8377</td>
                         <td>
                             <a href="{{ url_for('books.details', id=book.book_id) }}"
