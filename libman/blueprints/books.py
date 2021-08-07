@@ -1,8 +1,7 @@
-from hashlib import new
 from flask.blueprints import Blueprint
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from libman.models import Book
-from libman import db
+from libman.application import db
 from libman.forms import AddBookForm, EditBookForm
 import random, requests
 from datetime import datetime

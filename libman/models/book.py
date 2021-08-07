@@ -1,5 +1,5 @@
 from sqlalchemy.orm import backref, lazyload
-from libman import db
+from libman.application import db
 import random
 
 

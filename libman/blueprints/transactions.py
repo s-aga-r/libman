@@ -5,7 +5,7 @@ from flask.blueprints import Blueprint
 from flask import Blueprint, render_template, flash
 from libman.forms import IssueBookForm, ReturnBookForm
 from libman.models import Book, Member, member
-from libman import db
+from libman.application import db
 
 transaction = Blueprint("transactions", __name__, url_prefix="/transactions")
 

@@ -4,7 +4,7 @@ from libman.models import Member
 from flask import Blueprint, render_template, request, flash
 from flask.blueprints import Blueprint
 from libman.forms import AddMemberForm, EditMemberForm
-from libman import db
+from libman.application import db
 
 member = Blueprint("members", __name__, url_prefix="/members")
 

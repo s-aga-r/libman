@@ -1,4 +1,4 @@
-from libman import db
+from libman.application import db
 
 
 class Transaction(db.Model):
