@@ -138,7 +138,7 @@ def return_book():
             flash(
                 (
                     f"Selected book '{book}' with Book ID = {book.book_id} "
-                    "does not belongs to selected member "
+                    "was not taken by selected member "
                     f"'{member}' with Member ID = {member.member_id}",
                 ),
                 category="warning",

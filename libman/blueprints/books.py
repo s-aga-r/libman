@@ -1,3 +1,4 @@
+import flask
 from flask.blueprints import Blueprint
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from libman.models import Book
@@ -141,7 +142,11 @@ def edit(id):
 # POST - /books/seed
 @book.route("/seed", methods=["POST"])
 def seed():
-    response = requests.get("https://frappe.io/api/method/frappe-library")
+    try:
+        response = requests.get("https://frappe.io/api/method/frappe-library")
+    except:
+        flash(("Make sure you have connected to internet!",), category="warning")
+        return redirect(url_for("books.index"))
     json_response = response.json()
     books = list(json_response["message"])
 

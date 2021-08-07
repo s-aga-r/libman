@@ -5,5 +5,63 @@ Home
 {% endblock %}
 
 {% block content %}
-<h2>Index</h2>
+<script src="https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js"></script>
+
+<h3 class="text-center mt-5">Top Books</h3>
+<div id="top-books-chart"></div>
+<h3 class="text-center mt-5">Stock</h3>
+<div id="stock-chart"></div>
+
+<script>
+
+    let topBooks = {
+        labels: [],
+        datasets: [
+            {
+                name: "Top Books", type: "bar",
+                values: []
+            }
+        ]
+    }
+
+    let stock = {
+        labels: [],
+        datasets: [
+            {
+                name: "Stock", type: "bar",
+                values: []
+            }
+        ]
+    }
+
+    fetch("http://127.0.0.1:5000/charts")
+        .then(response => response.json())
+        .then(data => setData(data));
+
+    function setData(data) {
+        // Top Books
+        topBooks.labels = data["top_books"]["labels"];
+        topBooks.datasets[0].values = data["top_books"]["values"];
+        // Stock
+        stock.labels = data["stock"]["labels"];
+        stock.datasets[0].values = data["stock"]["values"];
+    }
+
+    const topBooksChart = new frappe.Chart("#top-books-chart", {
+        title: "",
+        data: topBooks,
+        type: 'bar',
+        height: 250,
+        colors: ['#ff5500']
+    })
+
+    const stockChart = new frappe.Chart("#stock-chart", {
+        title: "",
+        data: stock,
+        type: 'bar',
+        height: 250,
+        colors: ['#292cff']
+    })
+
+</script>
 {% endblock%}
