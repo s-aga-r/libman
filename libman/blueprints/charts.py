@@ -41,7 +41,7 @@ def top_books():
         # Get members data from db.
         members_data = (
             db.session.query(
-                Member.first_name,
+                Member.first_name + " " + Member.last_name,
                 func.count(Transaction.member_id),
                 func.sum(Transaction.rent),
             )

@@ -7,11 +7,15 @@ Home
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js"></script>
 
-<!-- <h3 class="text-center mt-5">Popular Books</h3> -->
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn primary btn-outline-primary btn-sm" onclick="exportChart('books')">Export</button>
+</div>
 <div id="popular-books-chart"></div>
 <br />
 <br />
-<!-- <h3 class="text-center mt-5">Highest Paying Members</h3> -->
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn primary btn-outline-primary btn-sm" onclick="exportChart('members')">Export</button>
+</div>
 <div id="highest-paying-chart"></div>
 
 <script>
@@ -79,6 +83,15 @@ Home
         height: 250,
         colors: ['#7cd6fd', '#743ee2']
     })
+
+    function exportChart(chart) {
+        if (chart == 'books') {
+            books_chart.export();
+        }
+        else if (chart == 'members') {
+            members_chart.export();
+        }
+    }
 
 </script>
 {% endblock%}
