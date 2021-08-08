@@ -7,28 +7,37 @@ Home
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/frappe-charts@1.2.4/dist/frappe-charts.min.iife.js"></script>
 
-<h3 class="text-center mt-5">Top Books</h3>
-<div id="top-books-chart"></div>
-<h3 class="text-center mt-5">Stock</h3>
-<div id="stock-chart"></div>
+<!-- <h3 class="text-center mt-5">Popular Books</h3> -->
+<div id="popular-books-chart"></div>
+<br />
+<br />
+<!-- <h3 class="text-center mt-5">Highest Paying Members</h3> -->
+<div id="highest-paying-chart"></div>
 
 <script>
 
-    let topBooks = {
+    let books = {
         labels: [],
         datasets: [
             {
-                name: "Top Books", type: "bar",
+                name: "Transaction(s)", type: "bar",
+                values: []
+            },
+            {
+                name: "Stock", type: "line",
                 values: []
             }
         ]
     }
-
-    let stock = {
+    let members = {
         labels: [],
         datasets: [
             {
-                name: "Stock", type: "bar",
+                name: "Transaction(s)", type: "bar",
+                values: []
+            },
+            {
+                name: "Amount", type: "line",
                 values: []
             }
         ]
@@ -39,28 +48,36 @@ Home
         .then(data => setData(data));
 
     function setData(data) {
-        // Top Books
-        topBooks.labels = data["top_books"]["labels"];
-        topBooks.datasets[0].values = data["top_books"]["values"];
+        // Popular Books 
+        // Title
+        books.labels = data["books"]["title"];
+        // No. of Transaction
+        books.datasets[0].values = data["books"]["no_of_transaction"];
         // Stock
-        stock.labels = data["stock"]["labels"];
-        stock.datasets[0].values = data["stock"]["values"];
+        books.datasets[1].values = data["books"]["quantity"];
+
+        // Highest Paying Members 
+        // Name
+        members.labels = data["members"]["name"];
+        // No. of Transaction
+        members.datasets[0].values = data["members"]["no_of_transaction"];
+        // Received Amount
+        members.datasets[1].values = data["members"]["amount"];
     }
 
-    const topBooksChart = new frappe.Chart("#top-books-chart", {
-        title: "",
-        data: topBooks,
+    const books_chart = new frappe.Chart("#popular-books-chart", {
+        title: "Popular Books",
+        data: books,
         type: 'bar',
         height: 250,
-        colors: ['#ff5500']
+        colors: ['#7cd6fd', '#743ee2']
     })
-
-    const stockChart = new frappe.Chart("#stock-chart", {
-        title: "",
-        data: stock,
-        type: 'bar',
+    const members_chart = new frappe.Chart("#highest-paying-chart", {
+        title: "Highest Paying Members",
+        data: members,
+        type: 'line',
         height: 250,
-        colors: ['#292cff']
+        colors: ['#7cd6fd', '#743ee2']
     })
 
 </script>
