@@ -100,5 +100,7 @@ def edit(id):
         # Initialize form fields with member object.
         if member:
             form.fill_data(member)
-
+        else:
+            flash(("Member not found!",), category="warning")
+            return redirect(url_for("members.index"))
     return render_template("members/edit.html", form=form, id=id)

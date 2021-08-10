@@ -1,5 +1,6 @@
+from datetime import date
 from libman.models.member import Member
-from libman.application import db
+from libman import db
 
 
 class Transaction(db.Model):
@@ -10,17 +11,17 @@ class Transaction(db.Model):
     issue_date = db.Column(db.Date(), nullable=False)
     return_date = db.Column(db.Date(), nullable=True)
 
-    def __init__(self, book_id, member_id, rent, issue_date) -> None:
+    def __init__(self, book_id, member_id, rent, issue_date=None) -> None:
         self.book_id = book_id
         self.member_id = member_id
         self.rent = rent
-        self.issue_date = issue_date
+        self.issue_date = issue_date if issue_date else date.today()
 
     def __repr__(self) -> str:
         return f"{self.transaction_id}"
 
     @staticmethod
-    def search_by_member_name(search):
+    def search_by_member_name(search) -> list[object]:
         return (
             Transaction.query.join(Transaction.member)
             .filter((Member.first_name + " " + Member.last_name).like(f"%{search}%"))
@@ -28,7 +29,7 @@ class Transaction(db.Model):
         )
 
     @staticmethod
-    def incomplete_transaction(book_id, member_id):
+    def incomplete_transaction(book_id, member_id) -> object:
         return Transaction.query.filter(
             Transaction.book_id == book_id,
             Transaction.member_id == member_id,
@@ -36,13 +37,13 @@ class Transaction(db.Model):
         ).first()
 
     @staticmethod
-    def incomplete_transactions():
+    def incomplete_transactions() -> list[object]:
         return Transaction.query.filter_by(return_date=None)
 
     @staticmethod
-    def member_transactions(member_id):
+    def member_transactions(member_id) -> list[object]:
         return Transaction.query.filter_by(member_id=member_id).all()
 
     @staticmethod
-    def book_transactions(book_id):
+    def book_transactions(book_id) -> list[object]:
         return Transaction.query.filter_by(book_id=book_id).all()

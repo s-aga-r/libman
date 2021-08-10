@@ -1,4 +1,4 @@
-from libman.application import db
+from libman import db
 
 
 class Member(db.Model):
@@ -15,32 +15,34 @@ class Member(db.Model):
     def __repr__(self) -> str:
         return f"{self.first_name} {self.last_name}"
 
-    def add(self):
+    def add(self) -> None:
         db.session.add(self)
         db.session.commit()
 
-    def remove(self):
+    def remove(self) -> None:
         db.session.delete(self)
         db.session.commit()
 
-    def update(self, first_name, last_name, outstanding_amount):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.outstanding_amount = outstanding_amount
+    def update(self, first_name=None, last_name=None, outstanding_amount=None) -> None:
+        self.first_name = first_name if first_name else self.first_name
+        self.last_name = last_name if last_name else self.last_name
+        self.outstanding_amount = (
+            outstanding_amount if outstanding_amount else self.outstanding_amount
+        )
         db.session.commit()
 
     @staticmethod
-    def search_by(search):
+    def search_by(search) -> list[object]:
         return Member.query.filter(
             (Member.first_name + " " + Member.last_name).like(f"%{search}%")
         ).all()
 
     @staticmethod
-    def get_by_id(id):
+    def get_by_id(id) -> object:
         return Member.query.filter_by(member_id=id).first()
 
     @staticmethod
-    def members():
+    def members() -> list[object]:
         return [
             (member.member_id, member.first_name + " " + member.last_name)
             for member in Member.query.all()

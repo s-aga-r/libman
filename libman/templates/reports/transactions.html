@@ -9,9 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
-        .table-danger {
-            background-color: #DC3545;
-            color: white;
+        @page {
+            size: A2 landscape;
         }
     </style>
 </head>
@@ -19,7 +18,7 @@
 <body>
     <h1>Transactions</h1>
     <br />
-    <table class="table text-center">
+    <table class="table text-center table-bordered">
         <thead>
             <tr>
                 <th scope="col">Transaction ID</th>
@@ -72,7 +71,7 @@
                 <td class="table-danger">-</td>
                 {% endif %}
                 <!-- Rent -->
-                <td>{{ transaction.rent }}&#8377</td>
+                <td>{{ transaction.rent }}₹</td>
                 <!-- Issue Date -->
                 <td>{{ transaction.issue_date }}</td>
                 <!-- Return Date -->

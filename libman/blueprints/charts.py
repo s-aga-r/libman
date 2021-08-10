@@ -1,7 +1,7 @@
 from libman.models.member import Member
 from flask import Blueprint, jsonify
 from libman.models import Transaction, Book
-from libman.application import db
+from libman import db
 from sqlalchemy import func
 
 chart = Blueprint("charts", __name__, url_prefix="/charts")

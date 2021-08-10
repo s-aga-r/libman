@@ -1,4 +1,4 @@
-from libman.application import app
+from libman import app
 
 if __name__ == "__main__":
     app.run(debug=True)

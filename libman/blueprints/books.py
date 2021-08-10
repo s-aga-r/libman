@@ -1,8 +1,7 @@
-import flask
 from flask.blueprints import Blueprint
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from libman.models import Book
-from libman.application import db
+from libman import db
 from libman.forms import AddBookForm, EditBookForm
 import random, requests
 from datetime import datetime
@@ -93,7 +92,12 @@ def remove():
 # GET - /books/details<id>
 @book.route("/details/<id>", methods=["GET"])
 def details(id):
-    return render_template("books/details.html", book=Book.get_by_id(id), id=id)
+    book = Book.get_by_id(id)
+    if book:
+        return render_template("books/details.html", book=book, id=id)
+    else:
+        flash(("Book not found!",), category="warning")
+        return redirect(url_for("books.index"))
 
 
 # GET & POST - /books/edit/<id>
@@ -135,6 +139,9 @@ def edit(id):
         # Initialize form fields with book object.
         if book:
             form.fill_data(book)
+        else:
+            flash(("Book not found!",), category="warning")
+            return redirect(url_for("books.index"))
 
     return render_template("books/edit.html", form=form, id=id)
 

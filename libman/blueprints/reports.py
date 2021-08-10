@@ -1,13 +1,32 @@
 import io
 from flask.blueprints import Blueprint
-from flask.helpers import flash, url_for
 from flask.templating import render_template
-import pdfkit as pdf
 from flask import send_file
-from werkzeug.utils import redirect
 from libman.models import Book, Member, Transaction
+import docraptor
 
 report = Blueprint("reports", __name__, url_prefix="/reports")
+
+
+def generate_pdf(rendered):
+    doc_api = docraptor.DocApi()
+    doc_api.api_client.configuration.username = "T18fkUXD7ZnvSe7DLvEF"
+
+    response = doc_api.create_doc(
+        {
+            "test": True,
+            "document_content": rendered,
+            "name": "untitled.pdf",
+            "document_type": "pdf",
+            "javascript": True,
+            "prince_options": {
+                "media": "screen",
+                "baseurl": "http://127.0.0.1:5000/",
+            },
+        }
+    )
+
+    return io.BytesIO(response)
 
 
 # GET - /reports/books
@@ -16,21 +35,13 @@ def books_report():
     books = Book.query.all()
     rendered = render_template("reports/books.html", books=books)
 
-    try:
-        file = io.BytesIO(pdf.from_string(input=rendered, output_path=False))
-    except:
-        flash(("wkhtmltopdf is missing.",), category="danger")
-        return redirect(url_for("index"))
-    else:
-        filename = f"books-report.pdf"
-
-        return send_file(
-            path_or_file=file,
-            mimetype="application/pdf",
-            as_attachment=True,
-            attachment_filename=filename,
-            cache_timeout=-1,
-        )
+    return send_file(
+        path_or_file=generate_pdf(rendered),
+        mimetype="application/pdf",
+        as_attachment=True,
+        attachment_filename="books-report.pdf",
+        cache_timeout=-1,
+    )
 
 
 # GET - /reports/members
@@ -39,21 +50,13 @@ def members_report():
     members = Member.query.all()
     rendered = render_template("reports/members.html", members=members)
 
-    try:
-        file = io.BytesIO(pdf.from_string(input=rendered, output_path=False))
-    except:
-        flash(("wkhtmltopdf is missing.",), category="danger")
-        return redirect(url_for("index"))
-    else:
-        filename = f"members-report.pdf"
-
-        return send_file(
-            path_or_file=file,
-            mimetype="application/pdf",
-            as_attachment=True,
-            attachment_filename=filename,
-            cache_timeout=-1,
-        )
+    return send_file(
+        path_or_file=generate_pdf(rendered),
+        mimetype="application/pdf",
+        as_attachment=True,
+        attachment_filename="members-report.pdf",
+        cache_timeout=-1,
+    )
 
 
 # GET - /reports/transactions
@@ -61,24 +64,11 @@ def members_report():
 def transactions_report():
     transactions = Transaction.query.all()
     rendered = render_template("reports/transactions.html", transactions=transactions)
-    options = {
-        "page-size": "A2",
-    }
 
-    try:
-        file = io.BytesIO(
-            pdf.from_string(input=rendered, output_path=False, options=options)
-        )
-    except:
-        flash(("wkhtmltopdf is missing.",), category="danger")
-        return redirect(url_for("index"))
-    else:
-        filename = f"transactions-report.pdf"
-
-        return send_file(
-            path_or_file=file,
-            mimetype="application/pdf",
-            as_attachment=True,
-            attachment_filename=filename,
-            cache_timeout=-1,
-        )
+    return send_file(
+        path_or_file=generate_pdf(rendered),
+        mimetype="application/pdf",
+        as_attachment=True,
+        attachment_filename="transactions-report.pdf",
+        cache_timeout=-1,
+    )
