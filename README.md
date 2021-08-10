@@ -49,3 +49,27 @@ Member Remove
 
 
 Transactions
+
+No Transactions History
+![transactions-empty](https://user-images.githubusercontent.com/63660334/128864222-60beaece-edc7-497c-9ed8-e7ad761750e7.png)
+
+All Transactions
+![transactions](https://user-images.githubusercontent.com/63660334/128864263-843e2f5f-a45d-480b-9b9e-a74b933901a4.png)
+
+All Transactions in Dark Mode
+![transactions-dark](https://user-images.githubusercontent.com/63660334/128864289-b23e673a-99a5-40da-87f7-4a51024b8a44.png)
+
+Book Issue
+![transactions-book-issue](https://user-images.githubusercontent.com/63660334/128864311-f78ad0cf-798a-45b9-acdc-4a99f51d701b.png)
+
+Book Return
+![transactions-book-return](https://user-images.githubusercontent.com/63660334/128864320-6a769f77-b6bd-4a12-865e-af8b5b056742.png)
+
+Transactions searched by Member name
+![transactions-search](https://user-images.githubusercontent.com/63660334/128864348-88bb7420-da6e-4062-801d-6dead92f9111.png)
+
+Member Transactions
+![transactions-by-member](https://user-images.githubusercontent.com/63660334/128864364-d6e01ffb-e50b-4e6e-b6d5-7c7fcbcdc643.png)
+
+Book Transactions
+![transactions-by-book](https://user-images.githubusercontent.com/63660334/128864387-bd0a40e2-f6c7-48d9-bda1-c31b4a9c501e.png)
