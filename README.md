@@ -2,6 +2,7 @@ Home
 
 ![home](https://user-images.githubusercontent.com/63660334/128862878-f4ec3ddf-3355-4f56-9b5c-2162eccdd4f0.png)
 
+
 Books
 
 All Books
@@ -26,10 +27,25 @@ Book Remove
 ![books-remove](https://user-images.githubusercontent.com/63660334/128863112-c573fb59-dde7-4940-8f96-c3b725824e85.png)
 
 
-
-
-
-
 Members
+
+All Members
+![members](https://user-images.githubusercontent.com/63660334/128863552-dda9730c-e0eb-4d4f-967e-eab2c784eb5c.png)
+
+All Members in Dark Mode
+![members-dark](https://user-images.githubusercontent.com/63660334/128863572-734fed39-1d95-433b-9f36-50879b303e0b.png)
+
+Add Member
+![members-add](https://user-images.githubusercontent.com/63660334/128863601-ca1ffad2-ce3b-4c4d-b971-f6558cec8d57.png)
+
+Member Edit
+![members-edit](https://user-images.githubusercontent.com/63660334/128863615-3cc8cc7e-544e-4ce5-aa92-688f346bfc8c.png)
+
+Member Search
+![members-search](https://user-images.githubusercontent.com/63660334/128863629-70345bfe-c515-429f-85e8-79d9963b9725.png)
+
+Member Remove
+![members-remove](https://user-images.githubusercontent.com/63660334/128863642-70da87f6-fdbd-4f02-9a0c-aed3a33c4ca1.png)
+
 
 Transactions
