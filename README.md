@@ -8,7 +8,7 @@ Books
 All Books
 ![books](https://user-images.githubusercontent.com/63660334/128862951-571dfb0c-ec37-4f7e-b27b-4269ecb88989.png)
 
-All Books in Dark Mode
+All Books(Dark Mode)
 ![books-dark](https://user-images.githubusercontent.com/63660334/128863229-2eecf634-e64f-4961-b800-9377ef33e24d.png)
 
 Add Book
@@ -32,7 +32,7 @@ Members
 All Members
 ![members](https://user-images.githubusercontent.com/63660334/128863552-dda9730c-e0eb-4d4f-967e-eab2c784eb5c.png)
 
-All Members in Dark Mode
+All Members(Dark Mode)
 ![members-dark](https://user-images.githubusercontent.com/63660334/128863572-734fed39-1d95-433b-9f36-50879b303e0b.png)
 
 Add Member
@@ -56,7 +56,7 @@ No Transactions History
 All Transactions
 ![transactions](https://user-images.githubusercontent.com/63660334/128864263-843e2f5f-a45d-480b-9b9e-a74b933901a4.png)
 
-All Transactions in Dark Mode
+All Transactions(Dark Mode)
 ![transactions-dark](https://user-images.githubusercontent.com/63660334/128864289-b23e673a-99a5-40da-87f7-4a51024b8a44.png)
 
 Book Issue
