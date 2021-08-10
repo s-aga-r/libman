@@ -1,3 +1,18 @@
+A web-based application for library management that allows a librarian to track books and their quantity, books issued to members, book fees. Librarians can maintain Books with stock, Members and Transactions. Also, provide the ability to download the reports and see chart representation for popular books with their stock and highest paying members.
+
+Librarian can perform:
+1. CRUD operations on Books and Members.
+2. Issue a book to a member.
+3. Issue a book return from a member.
+4. Search for a book by name and author.
+5. Charge a rent fee on book returns.
+6. Download books, members and transactions reports.
+7. Chart representation for popular books and highest paying members.
+
+
+
+
+
 https://user-images.githubusercontent.com/63660334/128864757-3ee04e23-fa1a-462c-9294-99e1bf7fa0c8.mp4
 
 Home
