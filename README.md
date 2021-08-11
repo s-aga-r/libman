@@ -12,6 +12,15 @@ A web-based application for library management that allows a librarian to track 
 6. Download books, members and transactions reports.
 7. Chart representation for popular books and highest paying members.
 
+# **How to run?**
+
+```bash
+git clone https://github.com/s-aga-r/LIBMAN.git
+cd LIBMAN
+pip install -r requirements.txt
+python setup.py
+```
+
 https://user-images.githubusercontent.com/63660334/129046304-f3af4521-0ab0-45ed-a048-89c884b3ed93.mp4
 
 ## **Home**
