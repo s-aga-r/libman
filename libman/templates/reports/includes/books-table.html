@@ -1,0 +1,24 @@
+<thead>
+    <tr>
+        <th scope="col">Book ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Authors</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Rent</th>
+    </tr>
+</thead>
+<tbody>
+    {% for book in books %}
+    <tr>
+        <th>{{ book.book_id }}</th>
+        <td>{{ book.title }}</td>
+        <td>{{ book.authors }}</td>
+        {% if book.quantity %}
+        <td>{{ book.quantity }}</td>
+        {% else %}
+        <td class="table-danger">0</td>
+        {% endif %}
+        <td>{{ book.rent }}&#8377</td>
+    </tr>
+    {% endfor %}
+</tbody>

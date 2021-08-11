@@ -2,7 +2,7 @@ var Page_Base = {
 
     switchMode: function (isBtnClick = false) {
         // Get last saved mode from localStorage.
-        var mode = window.localStorage.getItem("mode") == null ? "light" : window.localStorage.getItem("mode");
+        var mode = window.localStorage.getItem("mode") == null ? "dark" : window.localStorage.getItem("mode");
 
         // Switch Button.
         var darkModeIcon = document.getElementById('light-mode');

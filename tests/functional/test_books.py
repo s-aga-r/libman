@@ -26,7 +26,7 @@ def test_add_page(client):
     assert b"Authors" in response.data
 
 
-# url - /books/edit/<id>
+# url - /books/details/<id>
 def test_details_page(client):
     """
     GIVEN a Flask application configured for testing

@@ -16,12 +16,12 @@ Transactions
         {% if show_filters %}
         <div class="mb-sm-3 mb-4">
             <div class="d-inline">
-                <a href="{{ url_for('transactions.issue_book') }}" class="btn success btn-outline-success">Book
-                    Issue</a>
+                <a href="{{ url_for('transactions.issue_book') }}" class="btn success btn-outline-success">Issue
+                    Book</a>
             </div>
             <div class="float-end">
-                <a href="{{ url_for('transactions.return_book') }}" class="btn warning btn-outline-warning">Book
-                    Return</a>
+                <a href="{{ url_for('transactions.return_book') }}" class="btn warning btn-outline-warning">Return
+                    Book</a>
             </div>
         </div>
         <div class="mb-4 col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12">
@@ -45,7 +45,7 @@ Transactions
         {% endif %}
         <!-- Table -->
         <div class="table-responsive">
-            <table class="table table-hover table-dark text-nowrap">
+            <table class="table table-hover table-dark text-nowrap text-center table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Transaction ID</th>
@@ -76,7 +76,7 @@ Transactions
                         {% if transaction.return_date %}
                         <td>{{ transaction.return_date }}</td>
                         {% else %}
-                        <td class="text-danger">Not return yet</td>
+                        <td class="text-danger">Not returned yet</td>
                         {% endif %}
                     </tr>
                     {% endfor %}

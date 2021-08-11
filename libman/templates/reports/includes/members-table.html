@@ -1,0 +1,20 @@
+<thead>
+    <tr>
+        <th scope="col">Member ID</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">O/S Amount</th>
+    </tr>
+</thead>
+<tbody>
+    {% for member in members %}
+    <tr>
+        <th scope="row">{{ member.member_id }}</th>
+        <td>{{ member }}</td>
+        {% if member.outstanding_amount == 500 %}
+        <td class="table-danger">500&#8377</td>
+        {% else %}
+        <td>{{ member.outstanding_amount }}&#8377</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</tbody>

@@ -15,12 +15,6 @@ class EditMemberForm(FlaskForm):
     outstanding_amount = IntegerField(label="O/S Amount")
     submit = SubmitField(label="Save")
 
-    def validate_outstanding_amount(self, outstanding_amount):
-        if outstanding_amount.data < 0 or outstanding_amount.data > 500:
-            raise ValidationError(
-                "Outstanding Amount must be less than or equal to 500."
-            )
-
     def fill_data(self, member):
         self.member_id.data = member.member_id
         self.first_name.data = member.first_name

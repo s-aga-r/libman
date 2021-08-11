@@ -81,7 +81,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownReport">
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('reports.books_report') }}">
+                                <a class="dropdown-item" href="{{ url_for('reports.index', name='books') }}">
                                     <span>
                                         <img src="{{ url_for('static', filename='icons/book-half.svg') }}" alt="" />
                                         &nbsp;
@@ -90,7 +90,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('reports.members_report') }}">
+                                <a class="dropdown-item" href="{{ url_for('reports.index', name='members') }}">
                                     <span>
                                         <img src="{{ url_for('static', filename='icons/people-fill.svg') }}" alt="" />
                                         &nbsp;
@@ -99,7 +99,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ url_for('reports.transactions_report') }}">
+                                <a class="dropdown-item" href="{{ url_for('reports.index', name='transactions') }}">
                                     <span>
                                         <img src="{{ url_for('static', filename='icons/file-earmark-text-fill.svg') }}"
                                             alt="" />

@@ -82,7 +82,6 @@ def edit(id):
         member.update(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
-            outstanding_amount=form.outstanding_amount.data,
         )
 
         flash(

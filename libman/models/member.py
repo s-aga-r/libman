@@ -23,12 +23,9 @@ class Member(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def update(self, first_name=None, last_name=None, outstanding_amount=None) -> None:
+    def update(self, first_name=None, last_name=None) -> None:
         self.first_name = first_name if first_name else self.first_name
         self.last_name = last_name if last_name else self.last_name
-        self.outstanding_amount = (
-            outstanding_amount if outstanding_amount else self.outstanding_amount
-        )
         db.session.commit()
 
     @staticmethod

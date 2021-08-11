@@ -1,24 +1,27 @@
 {% extends "base.html" %}
 
 {% block title %}
-Book-Return
+Return Book
 {% endblock %}
 
 {% block content %}
-<h1>Book Return</h1>
+<h1>Return Book</h1>
 <div class="mt-sm-5 mt-4 col-xl-3 col-lg-4 col-md-6 col-12">
     <form method="POST">
         {{ form.hidden_tag() }}
         <div class="mb-3">
             {{ form.book_id.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.book_id(class="form-control text-wrap", autofocus="true") }}
         </div>
         <div class="mb-3">
             {{ form.member_id.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.member_id(class="form-control") }}
         </div>
         <div class="mb-3">
             {{ form.return_date.label(class="form-label") }}
+            <label class="text-danger">*</label>
             {{ form.return_date(class="form-control", type="date") }}
         </div>
         <div class="row mt-4">

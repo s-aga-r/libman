@@ -156,27 +156,21 @@ def member_transactions(id):
         transactions = Transaction.member_transactions(member_id=id)
 
         if transactions:
-            flash(
-                (
-                    f"All transactions of member '{member}' with Member ID = {member.member_id}.",
-                ),
-                category="info",
-            )
-        else:
-            flash(
-                (
-                    f"Member '{member}' with Member ID = {member.member_id} has no transactions.",
-                ),
-                category="info",
+            return render_template(
+                "transactions/index.html", transactions=transactions, show_filters=False
             )
 
-        return render_template(
-            "transactions/index.html", transactions=transactions, show_filters=False
+        flash(
+            (
+                f"Member '{member}' with Member ID = {member.member_id} has no transactions.",
+            ),
+            category="warning",
         )
+
     else:
         flash(("Member not found!",), category="warning")
 
-    return redirect(url_for("transactions.index"))
+    return redirect(url_for("members.index"))
 
 
 # GET - /transactions/book/<id>
@@ -188,20 +182,15 @@ def book_transactions(id):
         transactions = Transaction.book_transactions(book_id=id)
 
         if transactions:
-            flash(
-                (f"All transactions for book '{book}' with Book ID = {book.book_id}.",),
-                category="info",
-            )
-        else:
-            flash(
-                (f"Book '{book}' with Book ID = {book.book_id} has no transactions.",),
-                category="info",
+            return render_template(
+                "transactions/index.html", transactions=transactions, show_filters=False
             )
 
-        return render_template(
-            "transactions/index.html", transactions=transactions, show_filters=False
+        flash(
+            (f"Book '{book}' with Book ID = {book.book_id} has no transactions.",),
+            category="warning",
         )
     else:
         flash(("Book not found!",), category="warning")
 
-    return redirect(url_for("transactions.index"))
+    return redirect(url_for("books.index"))

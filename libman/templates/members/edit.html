@@ -28,7 +28,7 @@ Edit Member
         <div class="mb-3">
             {{ form.outstanding_amount.label(class="form-label") }}
             <label class="text-danger">*</label>
-            {{ form.outstanding_amount(class="form-control", type="number", min="0", max="500") }}
+            {{ form.outstanding_amount(class="form-control not-allowed", type="number", readonly="readonly") }}
         </div>
         <div class="row mt-4">
             <div class="col-6">

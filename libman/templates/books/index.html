@@ -20,6 +20,10 @@ Books
         <div class="row mb-sm-5 mb-4">
             <div class="col-xl-8 col-lg-8 col-md-7 col-sm-4 mb-2 d-grid gap-2 d-md-block">
                 <a href="{{ url_for('books.add') }}" class="btn success btn-outline-success">Add Book</a>
+                <a href="{{ url_for('transactions.issue_book') }}" class="btn primary btn-outline-primary">Issue
+                    Book</a>
+                <a href="{{ url_for('transactions.return_book') }}" class="btn warning btn-outline-warning">Return
+                    Book</a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8 col-12 mb-2">
                 <form method="GET">
@@ -34,7 +38,7 @@ Books
         </div>
         <!-- Table -->
         <div class="table-responsive">
-            <table class="table table-hover table-dark text-nowrap">
+            <table class="table table-hover table-dark text-nowrap text-center table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Book ID</th>

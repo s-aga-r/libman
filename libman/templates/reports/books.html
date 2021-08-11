@@ -1,49 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books-Report</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        @page {
-            size: A2 landscape;
-        }
-    </style>
-</head>
+{% block title %}
+Books Report
+{% endblock %}
 
-<body>
-    <h1>Books</h1>
-    <br />
-    <table class="table text-nowrap text-center">
-        <thead>
-            <tr>
-                <th scope="col">Book ID</th>
-                <th scope="col">Title</th>
-                <th scope="col">Authors</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Rent</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for book in books %}
-            <tr>
-                <th>{{ book.book_id }}</th>
-                <td>{{ book.title }}</td>
-                <td>{{ book.authors }}</td>
-                {% if book.quantity %}
-                <td>{{ book.quantity }}</td>
-                {% else %}
-                <td class="table-danger">0</td>
-                {% endif %}
-                <td>{{ book.rent }}&#8377</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+{% block content %}
+<div>
+    <h1 class="d-inline-block">Books Report</h1>
+    <div class="float-end">
+        <a class="btn primary btn-outline-primary" href="{{ url_for('reports.download', name='books') }}">Export</a>
+    </div>
+</div>
+<br />
+<div class="table-responsive">
+    <table class="table table-dark text-center table-bordered">
+        {% include "reports/includes/books-table.html" %}
     </table>
-</body>
-
-</html>
+</div>
+{% endblock%}
