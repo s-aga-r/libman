@@ -23,6 +23,8 @@ python setup.py
 
 https://user-images.githubusercontent.com/63660334/129046304-f3af4521-0ab0-45ed-a048-89c884b3ed93.mp4
 
+## **Lighthouse Report**
+![lighthouse-report](https://user-images.githubusercontent.com/63660334/129329590-4ebdc207-9de6-4a38-b18d-f59d0b09f194.png)
 ## **Home**
 ![home](https://user-images.githubusercontent.com/63660334/129039555-d3bd811b-c18f-465e-9382-49dfe8b51744.png)
 ## **Books**
